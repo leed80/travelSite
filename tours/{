@@ -1,0 +1,182 @@
+{
+	u'HotelRoomAvailabilityResponse': 
+		{
+			u'customerSessionId': u'0AB29078-7FF7-A915-7952-00D9359052B0', u'specialCheckInInstructions': u'Airport shuttle service is available on request. Contact the property in advance to make arrangements.',
+			u'tripAdvisorReviewCount': 388, 
+			u'arrivalDate': u'12/14/2016', 
+			u'tripAdvisorRating': 4.5, 
+			u'hotelId': 444276, 
+			u'HotelRoomResponse': 
+				[
+					{
+						u'ValueAdds': {
+							u'ValueAdd': 
+								[
+									{
+										u'@id': u'2192', 
+										u'description': u'Free Wireless Internet'
+									}, 
+									{
+										u'@id': u'1073742786', 
+										u'description': 
+										u'Free Breakfast'
+									}
+								], 
+						u'@size': u'2'
+					}, 
+					u'supplierType': u'E', 
+					u'deepLink': u'https://www.travelnow.com/templates/422852/hotels/444276/book?lang=en&amp;currency=USD&amp;standardCheckin=12/14/2016&amp;standardCheckout=12/17/2016&amp;selectedPrice=255.81&amp;supplierType=E&amp;rateCode=202385444&amp;roomTypeCode=200410889&amp;roomsCount=1&amp;rooms[0].adultsCount=2', 
+					u'minGuestAge': 0, 
+					u'quotedOccupancy': 2, 
+					u'rateOccupancyPerRoom': 3, 
+					u'rateCode': 202385444, 
+					u'RateInfos': 
+						{
+							u'RateInfo': 
+								{
+									u'currentAllotment': 2, 
+									u'taxRate': 37.38, 
+									u'@priceBreakdown': u'true', 
+									u'cancellationPolicy': u'We understand that sometimes your travel plans change. We do not charge a change or cancel fee. However, this property (Anpha Boutique Hotel) imposes the following penalty to its customers that we are required to pass on: Cancellations or changes made after 6:00 PM ((GMT+07:00) Bangkok, Hanoi, Jakarta) on Dec 11, 2016, or no-shows, are subject to a 100% Cost of Stay penalty.  ', 
+									u'promoType': u'Standard', 
+									u'RoomGroup': 
+										{
+											u'Room': 
+												{
+													u'numberOfAdults': 2, 
+													u'rateKey': u'1c3c329c-8f88-4cf9-bf2f-3407af5b7db6-5001', 
+													u'ChargeableNightlyRates': 
+														[
+															{
+																u'@promo': u'true', u'@rate': u'72.81', 
+																u'@baseRate': u'103.99'
+															}, 
+															{
+																u'@promo': u'true', 
+																u'@rate': u'72.81', 
+																u'@baseRate': u'103.99'
+															},
+															{
+																u'@promo': u'true', 
+																u'@rate': u'72.81', 
+																u'@baseRate': u'103.99'
+															}
+														], 
+														u'numberOfChildren': 0
+													}
+												}, 
+												u'@rateChange': u'false', 
+												u'@promo': u'true', 
+												u'rateType': u'MerchantStandard', u'ChargeableRateInfo': 
+													{
+														u'@maxNightlyRate': u'72.81', 
+														u'@averageRate': u'72.81', 
+														u'@currencyCode': u'USD', 
+														u'@total': u'255.81', 
+														u'@nightlyRateTotal': u'218.43', u'@averageBaseRate': 
+														u'103.99', 
+														u'Surcharges': 
+															{
+																u'@size': u'1', 
+																u'Surcharge': 
+																	{
+																		u'@amount': u'37.38', 
+																		u'@type': u'TaxAndServiceFee'
+																	}
+															}, 
+															u'@surchargeTotal': u'37.38', 
+															u'@commissionableUsdTotal': u'218.43', 
+															u'NightlyRatesPerRoom': 
+																{
+																	u'NightlyRate': 
+																		[
+																			{
+																				u'@promo': u'true', 
+																				u'@rate': u'72.81', 
+																				u'@baseRate': u'103.99'
+																			}, 
+																			{
+																				u'@promo': u'true',
+																				u'@rate': u'72.81', 
+																				u'@baseRate': u'103.99'
+																			}, 
+																			{
+																				u'@promo': u'true',
+																				u'@rate': u'72.81', 
+																				u'@baseRate': u'103.99'
+																			}
+																		], 
+																		u'@size': u'3'
+																}
+													}, 
+													u'nonRefundable': False, 
+													u'promoId': 209541698, 
+													u'guaranteeRequired': False, 
+													u'promoDescription': u'Save 30%', 
+													u'depositRequired': True, 
+													u'CancelPolicyInfoList': 
+														{
+															u'CancelPolicyInfo': 
+																[
+																	{
+																		u'cancelTime': u'18:00:00', 
+																		u'startWindowHours': 0, 
+																		u'currencyCode': u'USD', 
+																		u'percent': 100, 
+																		u'timeZoneDescription': u'(GMT+07:00) Bangkok, Hanoi, Jakarta', 
+																		u'versionId': 293610598, 
+																		u'nightCount': 0
+																	}, 
+																	{
+																		u'cancelTime': u'18:00:00', 
+																		u'startWindowHours': 72, 
+																		u'currencyCode': u'USD', 
+																		u'timeZoneDescription': u'(GMT+07:00) Bangkok, Hanoi, Jakarta', 
+																		u'versionId': 293610597, u'nightCount': 0}]}}, u'@size': u'1'}, 
+																		u'rateDescription': u'Premier Deluxe Room', u'roomTypeDescription': u'Premier Deluxe Room', 
+																		u'BedTypes': 
+																			{
+																				u'BedType': 
+																					{
+																						u'@id': u'14', 
+																						u'description': u'1 king bed'
+																					}, 
+																						u'@size': u'1'
+																					}, 
+																					u'roomTypeCode': 200410889, u'smokingPreferences': u'NS', 
+																					u'propertyId': 6873162
+																			}, 
+																			{
+																				u'ValueAdds': 
+																					{
+																						u'ValueAdd': 
+																							[
+																								{
+																									u'@id': u'2192', u'description': u'Free Wireless Internet'
+																								},
+																								{
+																									u'@id': u'1073742786', u'description': u'Free Breakfast'
+																								}
+																							], 
+																							u'@size': u'2'
+																					}, 
+																					u'supplierType': u'E', 
+																					u'deepLink': u'https://www.travelnow.com/templates/422852/hotels/444276/book?lang=en&amp;currency=USD&amp;standardCheckin=12/14/2016&amp;standardCheckout=12/17/2016&amp;selectedPrice=310.89&amp;supplierType=E&amp;rateCode=202385448&amp;roomTypeCode=200410890&amp;roomsCount=1&amp;rooms[0].adultsCount=2', 
+																					u'minGuestAge': 0, 
+																					u'quotedOccupancy': 2, u'rateOccupancyPerRoom': 3, 
+																					u'rateCode': 202385448, 
+																					u'RateInfos': 
+																						{
+																							u'RateInfo': 
+																								{
+																									u'currentAllotment': 4, u'taxRate': 45.45, u'@priceBreakdown': u'true', u'cancellationPolicy': u'We understand that sometimes your travel plans change. We do not charge a change or cancel fee. However, this property (Anpha Boutique Hotel) imposes the following penalty to its customers that we are required to pass on: Cancellations or changes made after 6:00 PM ((GMT+07:00) Bangkok, Hanoi, Jakarta) on Dec 11, 2016, or no-shows, are subject to a 100% Cost of Stay penalty.  ', u'promoType': u'Standard', u'RoomGroup': 
+																										{
+																											u'Room': {
+																												u'numberOfAdults': 2, 
+																												u'rateKey': u'cbb94aae-1258-4da8-8167-21967778a770-5001', 
+																												u'ChargeableNightlyRates': 
+																													[
+																														{
+																															u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}, {u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}, {u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}], u'numberOfChildren': 0}}, u'@rateChange': u'false', u'@promo': u'true', u'rateType': u'MerchantStandard', u'ChargeableRateInfo': {u'@maxNightlyRate': u'88.48', u'@averageRate': u'88.48', u'@currencyCode': u'USD', u'@total': u'310.89', u'@nightlyRateTotal': u'265.44', u'@averageBaseRate': u'126.39', u'Surcharges': {u'@size': u'1', u'Surcharge': {u'@amount': u'45.45', u'@type': u'TaxAndServiceFee'}}, u'@surchargeTotal': u'45.45', u'@commissionableUsdTotal': u'265.44', u'NightlyRatesPerRoom': {u'NightlyRate': [{u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}, {u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}, {u'@promo': u'true', u'@rate': u'88.48', u'@baseRate': u'126.39'}], u'@size': u'3'}}, u'nonRefundable': False, u'promoId': 209541698, u'guaranteeRequired': False, u'promoDescription': u'Save 30%', u'depositRequired': True, u'CancelPolicyInfoList': {u'CancelPolicyInfo': [{u'cancelTime': u'18:00:00', u'startWindowHours': 0, u'currencyCode': u'USD', u'percent': 100, u'timeZoneDescription': u'(GMT+07:00) Bangkok, Hanoi, Jakarta', u'versionId': 293610598, u'nightCount': 0}, {u'cancelTime': u'18:00:00', u'startWindowHours': 72, u'currencyCode': u'USD', u'timeZoneDescription': u'(GMT+07:00) Bangkok, Hanoi, Jakarta', u'versionId': 293610597, u'nightCount': 0}]}}, u'@size': u'1'}, u'rateDescription': u'Executive Deluxe Room', u'roomTypeDescription': u'Executive Deluxe Room', u'BedTypes': {u'BedType': {u'@id': u'14', u'description': u'1 king bed'}, u'@size': u'1'}, u'roomTypeCode': 200410890, u'smokingPreferences': u'NS', u'propertyId': 6873162}], u'hotelCountry': u'VN', u'hotelName': u'Anpha Boutique Hotel', u'departureDate': u'12/17/2016', u'hotelCity': u'Ho Chi Minh City', u'tripAdvisorRatingUrl': u'http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-123456-4.gif', u'numberOfRoomsRequested': 1, u'hotelAddress': u'202 Le Thanh Ton, District 1', u'@size': u'2', u'checkInInstructions': u"<p><b>Know Before You Go</b> <br /><ul>  <li>Local laws may restrict unmarried guests from sharing rooms. Guests are responsible for providing proof of marriage, if requested by the hotel. </li> <li>This property offers transfers from the airport (surcharges may apply). Guests must contact the property with arrival details 24 hours prior to arrival, using the contact information on the booking confirmation. </li> <li>Children 11 years old and younger stay free when occupying the parent or guardian's room, using existing bedding. </li><li>No pets and no service animals are allowed at this property. </li> </ul></p><p><b>Fees</b> <br /><p>The following fees and deposits are charged by the property at time of service, check-in, or check-out. </p> <ul>      <li>Airport shuttle fee: VND 420000.00 per vehicle (one way)</li>           <li>Rollaway beds are available for an additional fee</li>  </ul> <p>The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change. </p></p>"
+		}
+}

@@ -1,0 +1,255 @@
+html,
+body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	
+}
+#container {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10%;
+
+}
+
+#header {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10%;
+}
+
+#logoContainer {
+	width: 50%;
+	margin: 0;
+	padding: 0;
+}
+
+#logo {
+	width: 40%;
+	height: 30%;
+	margin: 0;
+	padding-top: 5%;
+	padding-left: 10%;
+	text-decoration: none;
+	float: left;
+}
+
+.menu{
+	width: 50%;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#menuulreg{
+	width: 100%;
+	padding: 0;
+	padding-left: 65%;
+	padding-top: 5%;
+	float: left;
+}
+
+#menureg {
+	padding: 0 2%;
+	text-decoration: none;
+	display: inline;
+	margin: 0;
+	float: left;
+	text-align: center;
+	color: white;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 20px;
+	font-style: bold;
+	transition: 0.5s;
+}
+
+#menureg:hover {
+	color: grey;
+}
+
+
+
+
+
+#edit {
+	display: none;
+}
+
+#user {
+	display: none;
+}
+
+.main_container {
+	width: 1024px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	
+}
+
+body {
+	width:1024px;
+	padding: 0;
+	margin: 0;
+}
+
+.select_container {
+	width: 204.8px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#description {
+	width: 204.8px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.map {
+	width: 617.7px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.mapcontainer {
+	width: 617.7px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#form {
+	width: 617.7px;
+	padding: 0;
+	margin: 0;
+	float: left;
+
+}
+
+.header {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	float: left: 
+}
+
+.region {
+	text-decoration: underline;
+}
+/*---- Media query for large laptops --*/
+
+@media screen and (min-width: 1440px) {
+
+	.main_container {
+	width: 1440px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	
+}
+
+body {
+	width:1440px;
+	padding: 0;
+	margin: 0;
+}
+
+.select_container {
+	width: 288px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#description {
+	width: 288px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.map {
+	width: 867px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.mapcontainer {
+	width: 867px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#form {
+	width: 867px;
+	padding: 0;
+	margin: 0;
+	float: left;
+
+}
+
+}
+
+/*---- Media query for large monitor --*/
+
+@media screen and (min-width: 2560px) {
+
+	.main_container {
+	width: 2560px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	
+}
+
+body {
+	width:2560px;
+	padding: 0;
+	margin: 0;
+}
+
+.select_container {
+	width: 512px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#description {
+	width: 512px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.map {
+	width: 1536px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+.mapcontainer {
+	width: 1536px;
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+
+#form {
+	width: 867px;
+	padding: 0;
+	margin: 0;
+	float: left;
+
+}
+
+}
+

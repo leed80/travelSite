@@ -1,0 +1,33 @@
+{
+	u'HotelRoomAvailabilityResponse': 
+		{
+			u'EanWsError': 
+				{
+					u'category': u'SOLD_OUT', 
+					u'exceptionConditionId': -1, 
+					u'handling': u'RECOVERABLE', 
+					u'ServerInfo': 
+						{
+							u'@instance': u'71', 
+							u'@timestamp': u'1475853717', 
+							u'@serverTime': u'10:21:57.387-0500'
+						}, 
+						u'itineraryId': -1, 
+						u'ErrorAttributes': 
+							{
+								u'errorAttributesMap': 
+									{
+										u'entry': 
+											{
+												u'value': 146, 
+												u'key': u'SUPPLIER_ERROR_CODE'
+											}
+									}
+							}, 
+							u'verboseMessage': u"errors.supplier.soldout; The hotel's reservation system reports that the room is unavailable.; 146", u'presentationMessage': u'The room you were trying to book has sold out. Please choose another.'
+				}, 
+				u'hotelId': 444276, 
+				u'customerSessionId': u'0ABAAA47-1B93-AF91-5792-FB7ABA693988', 
+				u'@size': u'0'
+		}
+}

@@ -1,0 +1,17 @@
+#username_edit,
+#email_edit,
+#first_edit,
+#last_edit,
+#desc_edit,
+#photo_edit {
+	display: none;
+}
+
+#ucb,
+#ecb,
+#fcb,
+#lcb,
+#dcb,
+#pcb {
+	display: none;
+}

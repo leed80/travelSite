@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Adventurer</title>
+        <link rel="stylesheet" type="text/css" href="/static/style/regstyle.css">
+        <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+        <script src="{{ STATIC_URL }}js/jquery-1.12.0.js"></script>
+        <script>
+    $(document).ready(function(){
+      
+        var status;
+        status = $('#delete_stat').text();
+        
+        
+
+        if (status == 'yes'){
+            $('#deleted').css('display', 'block');
+            $('#break').css('display', 'block');
+        }
+
+        $('.usernameInput').click(function(){
+            $(this).attr('value', '');
+        });
+
+        $('.passwordInput').click(function(){
+            $(this).attr('value', '');
+        });
+    });
+
+
+    </script>
+    <script type="text/javascript">
+<!--
+if (screen.width <= 900) {
+window.location.href = '/mobile/';
+}
+//-->
+</script>
+    </head>
+
+    <body>
+
+        <div id="container">
+
+            <div id="header">
+                <a href="/"><img id="logo" src="/static/img/logo_nobackground.png"></a>
+                <h1 id="registertitle">The Adventurer Login</h1>
+                
+            </div>
+
+
+           
+           <div id="formblock">
+            <br id='break'><br id='break'>
+            <p id="delete_stat">{{ invalid }}</p>
+                <h1 id="deleted">Incorrect login details. Please try again.</h1>
+                {% block content %}
+                <form id="form" class="form" method="post" action="/reg/login/">
+                    {% csrf_token %}
+                    <input id="formele" class="usernameInput" type="text" name="username" value="Username" size="50" />
+                    <br />
+                    <input id="formele" class="passwordInput" type="password" name="password" value="Password" size="50" />
+                    <br />
+
+                    <input type="submit" value="submit" />
+                    <a href="/" id="login">Return to the homepage.</a><br />
+                <a href="/reg/" id="login">Register</a><br />
+                </form>
+                
+
+            </div>
+            {% endblock %}
+
+            <div id="copy">
+               &copy; {% now "Y" %} The Adventurer
+            </div>
+        </div>
+    </body>
+</html>

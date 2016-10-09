@@ -1,0 +1,115 @@
+{% load analytical %}
+<!DOCTYPE html>
+<head>
+   {% analytical_head_top %}
+
+  <title>The Adventurer</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}style/profile.css">
+  <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+  <script src="{{ STATIC_URL }}js/jquery-1.12.0.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/profile/profile.js"></script> 
+
+  <script type="text/javascript">
+<!--
+if (screen.width <= 900) {
+window.location.href = '/mobile/';
+}
+//-->
+</script>
+  
+  
+
+ {% analytical_head_bottom %}
+</head>
+
+<body>
+  {% analytical_body_top %}
+
+  <div class="container">
+
+  <div class="main">
+    
+<div class='header'>
+    <div id="logoContainer">
+          <a href="/"><img id="logo" src="/static/img/logo_nobackground.png"></a>
+    </div>
+    
+    <div class="menu">
+
+      
+          <ul id="menuulreg">
+            <li id="menureg"><a  id="menureg" href='/map/' > Map</a></li>
+            <li id="menureg"><a id="menureg" href='/reg/logout'>Logout</a></li>
+          </ul> 
+          
+      </div>
+    </div>
+
+
+    <div class="itinerarys">
+    <h2 id="title">Your Profile</h2>
+
+  
+
+	
+
+
+  <h2 id='username'>Username: {{user.username}}</h2>
+  
+ 
+
+
+  <h2 id='email'>Email: {{user.email}}</h2>
+  <button id='eeb' type='button'>edit</button>
+ <form id='email_edit' class='email-edit' action='/profile/email/' method='post'>{% csrf_token %}
+  <label>Email</label>
+  {{form.email}}
+  <input type="submit" name="submit" class="btn btn-primary" value='email edit'>
+</form>
+<button id='ecb' class="buttondesign" type='button'>cancel</button>
+
+
+  <h2 id='first'>First Name: {{user.first_name}}</h2>
+  <button id='feb' type='button'>edit</button>
+ <form id='first_edit' class='firstname-edit' action='/profile/first/' method='post'>{% csrf_token %}
+  
+  {{form.first}}
+  <input type="submit" name="submit" class="btn btn-primary" value='firstname edit'>
+</form>
+<button id='fcb' class="buttondesign" type='button'>cancel</button>
+
+
+  <h2 id='last'>Last Name: {{user.last_name}}</h2>
+  <button id='leb' type='button'>edit</button>
+ 
+ <form id='last_edit' class='lastname-edit' action='/profile/last/' method='post'>{% csrf_token %}
+  
+  {{form.last}}
+  <input type="submit" name="submit" class="btn btn-primary" value='lastname edit'>
+</form>
+<button id='lcb' class="buttondesign" type='button'>cancel</button>
+
+<h2 id="delete_title">Delete your account</h2>
+<input type="submit" name="delete_account" id="predelete_account" value="Delete">
+<p id='sure'>Are you sure you want to delete your account?</p>
+<a href="/profile/delete/"><input type="submit" name="delete_account" id="delete_account" value="Delete"></a>
+<input type="submit" name="delete_account" class="buttondesign" id="cancel_delete" value="cancel"></a>
+
+
+</div>
+
+
+
+  
+ </div>
+
+ <div id="footer">
+  <p id="copy">&copy; {% now "Y" %} The Adventurer<p>
+
+
+</div>
+
+</div>
+{% analytical_body_bottom %}
+</body>

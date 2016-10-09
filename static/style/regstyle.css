@@ -1,0 +1,153 @@
+html,
+body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-image: url('/static/img/regbackground.jpg');
+}
+
+#container {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10%;
+
+}
+
+
+
+#registertitle {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 3%;
+
+	text-align: center;
+	float: left;
+	font-family: 'Josefin Sans', sans-serif;
+	font-style: bold;
+	color: white;
+}
+
+#logo {
+	width: 10%;
+	height: 5%;
+	padding: 0;
+	padding-top: 2%;
+	padding-left: 2%;
+	float: left;
+}
+
+#header {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#formblock{
+	width: 40%;
+	margin: auto;
+	padding: 10%;
+
+
+	
+}
+
+#form {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10%;
+	float: left;
+	text-align: center;
+	background-color: #4dc3ff;
+	font-family: 'Josefin Sans', sans-serif;
+	border: 1px solid white;
+	border-radius: 3px;
+	color: white;
+}
+
+#create {
+	font-style: bold;
+}
+
+#login {
+	width: 100%;
+	padding: 0;
+	padding-top: 2%;
+	margin: 0;
+	color: white;
+	font-style: bold;
+	text-decoration: none;
+	text-align: center;
+}
+
+#copy {
+	text-align: center;
+	width: 100%;
+	color: white;
+	font-style: bold;
+	font-family: 'Josefin Sans', sans-serif;
+	float: left;
+	padding: 0;
+	padding-top: 3%;
+	padding-bottom: 1%;
+
+}
+
+#successheader {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+
+}
+
+#menu {
+	padding: 0 2%;
+	text-decoration: none;
+	display: inline;
+	margin: 0;
+	float: left;
+	text-align: center;
+	color: white;
+	font-family: 'Josefin Sans', sans-serif;
+	font-size: 20px;
+	font-style: bold;
+	transition: 0.5s;
+}
+
+#formele{
+	width: 40%;
+	padding: 2%;
+	margin: auto;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	text-align: center;
+}
+
+#delete_stat {
+	display: none;
+}
+
+#deleted{
+	width: 100%;
+	padding: 0;
+	padding-top: 5%;
+	padding-bottom: 5%;
+	margin: 0;
+	background-color: red;
+	color: white;
+	text-align: center;
+	font-family: 'Josefin Sans', sans-serif;
+	display: none;
+}
+
+
+#break{
+	display: hide;
+}
+
+
+#login:hover {
+	cursor: hand;
+}

@@ -1,0 +1,27 @@
+<script src="{{ STATIC_URL }}js/jquery-1.12.0.js"></script>
+<script src="/static/js/tourstoppage.js"></script>
+
+<p id="country">{{ country }}</p>
+<p id="date">{{ date }}</p>
+<p id="travelers">{{ travelers }}</p>
+<p id="class">{{ class }}</p>
+<p id="tour">{{ tour }}</p>
+<p id="sig">{{ sig }}</p>
+
+<div id="tourstopbody">
+
+	
+
+
+
+
+
+</div>
+
+We will then use the API to get the hotel info and zumata api to get the availability and price and jquery to populate this page with hotel data.
+
+We then take the package peramieters sent back by the title or each hotel along with the above information and send it too the backend for booking.
+
+The backend then interacts with the zumata api too book all the selected hotels and displays all the information needed on a later page.
+
+

@@ -1,0 +1,55 @@
+{% load analytical %}
+<!DOCTYPE html >
+
+<head>
+	{% analytical_head_top %}
+  
+    <title>The Adventurer</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/style/homestyle.css">
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+	<script type="text/javascript">
+<!--
+if (screen.width <= 900) {
+window.location.href = '/mobile/';
+}
+//-->
+</script>
+  {% analytical_head_bottom %}
+  </head>
+  <body>
+  	{% analytical_body_top %}
+
+  	<div class="success">
+
+	  	<div id="header">
+	  		<div id="logoContainer">
+		   		<a href="/"><img id="logo" src="/static/img/logo_nobackground.png"></a>
+		   	</div>
+
+		   	<div class="menu">
+			  	<ul id="menuulreg">
+					<li id="menureg"><a  id="menureg" href='/map/'>Map</a></li>
+					<li id="menureg"><a  id="menureg" href='/profile/'>Profile</a></li>
+					<li id="menureg"><a id="menureg" href='/reg/logout'>Logout</a></li>
+				
+
+				</ul>	
+			</div>
+
+		</div>
+
+		<div class="mainbody">
+	  		<div id="successbox">
+	  			<p id="regsuccess">Thankyou for confirming your email address.</p>
+	  		</div>
+	  	</div>
+
+	  	<div id="copy">
+        <p>&copy; {% now "Y" %} The Adventurer</p>
+    </div>
+  </div>
+  {% analytical_body_bottom %}
+  </body>
+
+</html>

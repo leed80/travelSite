@@ -1,0 +1,39 @@
+{% load analytical %}
+<!DOCTYPE html >
+<html>
+  <head>
+  {% analytical_head_top %}
+    <title>The Adventurer</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/style/homestyle.css">
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+  {% analytical_head_bottom %}
+  </head>
+  <body>
+  	{% analytical_body_top %}
+
+  	<div class="success">
+
+	  	<div id="header">
+	  		<div id="logoContainer">
+		   		<a href="/"><img id="logo" src="/static/img/logo_nobackground.png"></a>
+		   	</div>
+
+		</div>
+
+		<div class="mainbody">
+	  		<div id="successbox">
+	  			<p id="regsuccess">Unfortunatly The Adventurer is not available on this device at the moment. We hope to have this up and running in the near future.</p>
+	  		</div>
+	  	</div>
+
+	  	<div id="copy">
+        <p>&copy; {% now "Y" %} The Adventurer</p>
+    </div>
+  </div>
+
+  {% analytical_body_bottom %}
+  
+  </body>
+
+</html>
