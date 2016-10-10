@@ -5,11 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 # This is the form for editing user details in profile area
 
 class EmailEdit(forms.Form):
-    email = forms.EmailField(required=False)
+    emailEdit = forms.EmailField(required=False)
     
     class Meta:
         model = User
-        fields = ('email')
+        fields = ('EmailEdit')
 
 class UsernameEdit(forms.Form):
 	username = forms.CharField(required=True)
