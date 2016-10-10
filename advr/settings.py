@@ -50,18 +50,15 @@ INSTALLED_APPS = (
     'django_countries',
     'tours',
     'hotel',
-    'corsheaders',
     
     
     
     
 )
 
-CLICKY_SITE_ID = '100941724'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,11 +70,6 @@ MIDDLEWARE_CLASSES = (
     
 )
 
-#CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ORIGIN_WHITELIST = (
-  '127.0.0.1:8000',
-)
 
 ROOT_URLCONF = 'advr.urls'
 
@@ -115,16 +107,14 @@ WSGI_APPLICATION = 'advr.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 #live database
-#DATABASES = {}
-#DATABASES['default'] =  dj_database_url.config()
 
-#Database for local development
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'advrdb',
         'USER': '',
-        'password': 'dl272727',
+        'password': '*****',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -146,8 +136,8 @@ USE_L10N = True
 USE_TZ = True
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'leed80'
-EMAIL_HOST_PASSWORD = 'Theadvr1'
+EMAIL_HOST_USER = '****'
+EMAIL_HOST_PASSWORD = '*****'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
