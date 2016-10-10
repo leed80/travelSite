@@ -14,23 +14,23 @@ from reg import models
 @login_required
 def profile(request):
   
-  args = {}
-  args['form'] = {'usernameedit': UsernameEdit(), 'email': EmailEdit(), 'first': FirstNameEdit(), 'last': LastNameEdit()}
+  userInformation = {}
+  userInformation['form'] = {'usernameedit': UsernameEdit(), 'email': EmailEdit(), 'first': FirstNameEdit(), 'last': LastNameEdit()}
 
-  return render_to_response ('advrprof/profile.html', args, RequestContext(request))
+  return render_to_response ('advrprof/profile.html', userInformation, RequestContext(request))
 
 # This is the view for editing the username
 @login_required
-def username_edit(request):
-  usernameedit = {}
-  usernameedit.update(csrf(request))
+def usernameEdit(request):
+  usernameEdit = {}
+  usernameEdit.update(csrf(request))
   if request.method == 'POST':
     form = UsernameEdit(request.POST)
-    usernameedit['form'] = form
+    usernameEdit['form'] = form
     if form.is_valid():
-      username = form.cleaned_data['username']
+      usernameEdit = form.cleaned_data['username']
       user = getUser()  
-      user.username = username
+      user.username = usernameEdit
       user.save()
 
       return redirect('advrprof.views.prof')
@@ -39,48 +39,48 @@ def username_edit(request):
 
 # This is the view for editing the email
 @login_required
-def email_edit(request):
-  email = {}
-  email.update(csrf(request))
+def emailEdit(request):
+  emailEdit = {}
+  emailEdit.update(csrf(request))
   if request.method == 'POST':
         form = EmailEdit(request.POST)
-        email['form'] = form
+        emailEdit['form'] = form
         if form.is_valid():
-          emailedit = form.cleaned_data['email']
+          emailEdit = form.cleaned_data['email']
           user = getUser()    
-          user.email = emailedit
+          user.email = emailEdit
           user.save()
 
           return redirect('advrprof.views.prof')
 
 # This is the view for editing the first name         
 @login_required
-def first_name_edit(request):
-  first = {}
-  first.update(csrf(request))
+def firstNameEdit(request):
+  firstName = {}
+  firstName.update(csrf(request))
   if request.method == 'POST':
         form = FirstNameEdit(request.POST)
-        first['form'] = form
+        firstName['form'] = form
         if form.is_valid():
-          first = form.cleaned_data['first_name']
+          firstNameEdit = form.cleaned_data['first_name']
           user = getUser()    
-          user.first_name = first
+          user.first_name = firstNameEdit
           user.save()
 
           return redirect('advrprof.views.prof')
 
 # This is the view for editing the last name
 @login_required
-def last_name_edit(request):
-  last = {}
-  last.update(csrf(request))
+def lastNameEdit(request):
+  lastName = {}
+  lastName.update(csrf(request))
   if request.method == 'POST':
         form = LastNameEdit(request.POST)
-        last['form'] = form
+        lastName['form'] = form
         if form.is_valid():
-          last = form.cleaned_data['last_name']
+          lastNameEdit = form.cleaned_data['last_name']
           user = getUser()     
-          user.last_name = last
+          user.last_name = lastNameEdit
           user.save()
 
           return redirect('advrprof.views.prof')
@@ -90,10 +90,10 @@ def last_name_edit(request):
 def deleteProfile(request):
   user = getUser()  
   user.delete()
-  deleted = 'deleted'
-  args = {'deleted': deleted}
+  userDeleted = 'User deleted'
+  deleteMessage = {'deleted': userDeleted}
 
-  return render_to_response('homepage/home.html', args, RequestContext(request))
+  return render_to_response('homepage/home.html', deleteMessage, RequestContext(request))
 
   
 
