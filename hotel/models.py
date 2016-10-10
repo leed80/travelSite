@@ -11,13 +11,13 @@ class hotelTable(models.Model):
 	description = models.TextField(max_length=10000)
 	stop = models.CharField(max_length=40)
 	travelClass = models.CharField(max_length=40)
-	eanhotelid = models.IntegerField(max_length=50)
+	eanhotelid = models.IntegerField()
 	address = models.CharField(max_length=40)
 	location = models.CharField(max_length=40)
 	amenities = models.TextField(max_length=10000)
 	policies = models.TextField(max_length=10000)
-	roomtypecode = models.IntegerField(max_length=2000)
-	ratecode = models.IntegerField(max_length=2000)
+	roomtypecode = models.IntegerField()
+	ratecode = models.IntegerField()
 
 
 
