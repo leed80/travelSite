@@ -1,5 +1,7 @@
 dj-database-url==0.4.1
+Django==1.7
 django-analytical==2.0.0
+django-countries==4.0
 django-postgres-copy==0.0.7
 djangorestframework==3.3.2
 gunicorn==19.4.5

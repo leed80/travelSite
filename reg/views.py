@@ -18,38 +18,50 @@ import urllib2, urllib
 
 
 def register_user(request):
-    args = {}
-    args.update(csrf(request))
+    registerDetails = {}
+    registerDetails.update(csrf(request))
+
+    # If request is not POST then send forms
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
-        args['form'] = form
+        registerDetails['form'] = form
         if form.is_valid(): 
             form.save()  # save user to database if form is valid
 
+            # Clean user data and assign variables
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            salt = hashlib.sha1(str(random.random())).hexdigest()[:5]            
-            activation_key = hashlib.sha1(salt+email).hexdigest()            
-            status = "unconfirmed"
             country = form.cleaned_data['country']
             address = form.cleaned_data['address']
             postcode = form.cleaned_data['postcode']
 
+            # Using the sha1 FIPS secure hash algorith on a randomly generated float thats been converted 
+            # to a string. Digesting the hash in hexidecimal from index 0 to, but not including index 5
+            activationSalt = hashlib.sha1(str(random.random())).hexdigest()[:5]  
+
+            # Create an activation key using the above salt and the user email using 
+            # the sha1 hash algortith digested in hexidecimal form          
+            activation_key = hashlib.sha1(activationSalt+email).hexdigest() 
+
+            # Set user as unconfimed           
+            status = "unconfirmed"
 
             #Get user by username
             user=User.objects.get(username=username)
 
-            # Create and save user profile                                                                                                                                  
+            # Create and save new user profile                                                                                                                                  
             new_profile = UserProfile(user=user, activation_key=activation_key, status=status, country = country, address = address, postcode = postcode)
             new_profile.save()
 
+            # Authenticate and login the new user
             new_user = authenticate(username=username, password=form.cleaned_data['password1'])
             login(request, new_user)
 
-            # Send email with activation key
+            # Create activation email subject and body
             email_subject = 'The Adventurer account confirmation'
             email_body = 'Hey %s,\n\n Thanks for signing up for The Adventurer. Please click the following link to activate your account: \n\n http://127.0.0.1:8000/reg/confirm/?username=%s&activation_key=%s \n\nThanks\n\nThe Adventurer Team' % (username, username, activation_key)
 
+            # send the email using the above subject and body to the user supplied details
             send_mail(email_subject, email_body, 'no-reply@theadvr.com',
                 [email], fail_silently=False)
 
@@ -57,9 +69,9 @@ def register_user(request):
 
             return HttpResponseRedirect('/reg/success')
     else:
-        args['form'] = RegistrationForm()
+        registerDetails['form'] = RegistrationForm()
 
-    return render_to_response('reg/reg.html', args, context_instance=RequestContext(request))
+    return render_to_response('reg/reg.html', registerDetails, context_instance=RequestContext(request))
 
 
 def confirm(request):
