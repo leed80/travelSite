@@ -37,7 +37,7 @@ def registrationProcess(request):
         # Start the process of adding the user to the user profile database table
 
         # Gather cleaned form data
-        username, userEmail, country, address, postcode = cleanFormData(form)
+        username, userEmail, country, address, postcode, password = cleanFormData(completeRegistrationForm)
 
         # Create an activation key
         activationKey = activationSalt(userEmail)
@@ -52,7 +52,7 @@ def registrationProcess(request):
         saveNewUserProfile(user, activationKey, status, country, address, postcode)
 
         # authenticate and login the new user
-        authenticateLogin(username, password=form.cleaned_data['password1'], request)
+        authenticateLogin(username, password, request)
 
         # Create and send the activation email
         activationEmail(username, activationKey, userEmail)
@@ -92,8 +92,9 @@ def cleanFormData(form):
     country = form.cleaned_data['country']
     address = form.cleaned_data['address']
     postcode = form.cleaned_data['postcode']
+    password=form.cleaned_data['password1']
 
-    return (username, userEmail, country, address, postcode)
+    return (username, userEmail, country, address, postcode, password)
 
 
 def authenticateLogin(username, password, request):
@@ -111,21 +112,19 @@ def confirm(request):
     # Get the stored activation key
     storedActivationKey = storedActivationKey(request)
 
-
-
-
-
-   
-
     if storedActivationKey == sentActivationKey:
+        # If the two keys are the same then change profile status to confirmed, save and send to the confirmed account page
         profile.status = 'confirmed'
         profile.save()
 
         return render_to_response("reg/confirm.html", context_instance=RequestContext(request))
     else:
+        # Send the error message that the sent key is wrong
         return HttpResponse('The activation key is wrong. Please try again or contact support')
 
 def storedActivationKey(request):
+    # Function for retricing the activation key stored on user proile
+
     # Get the current user
     current_user = request.user
     username = current_user.username
@@ -139,17 +138,19 @@ def storedActivationKey(request):
 
   
 def success(request):
+    # This is the view for returning the page for successful registration
     return render_to_response('reg/register_success.html')
   
 def user_login(request):
+    # The view for logging the user in
 
+    # Check the sent details are correct. If the user is lready authenticated then send them to their profile page
     if request.user.is_authenticated():
         return render_to_response('advrprof/profile.html', RequestContext(request))
     else:
-        # Like before, obtain the context for the user's request.
+        # Get the context data for the users request
         context = RequestContext(request)
 
-        # If the request is a HTTP POST, try to pull out the relevant information.
         if request.method == 'POST':
             # Gather the username and password provided by the user.
             # This information is obtained from the login form.
