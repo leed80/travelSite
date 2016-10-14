@@ -19,40 +19,46 @@ import urllib2, urllib
 
 def register_user(request):
     registerDetails = {}
-    #registerDetails.update(csrf(request))
-    # If request is not POST then send forms
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        registerDetails['form'] = form
-        if form.is_valid(): 
-            form.save()  # save user to database if form is valid
-
-            # Gather cleaned form data
-            username, userEmail, country, address, postcode = cleanFormData(form)
-
-            # Create an activattion key
-            activationKey = activationSalt(userEmail)
-
-            # Set user as unconfimed           
-            status = "unconfirmed"
-
-            #Get user by username
-            user = User.objects.get(username=username)
-
-            # Save the new user profile
-            saveNewUserProfile(user, activationKey, status, country, address, postcode)
-
-            # authenticate and login the new user
-            authenticateLogin(username, password=form.cleaned_data['password1'], request)
-
-            # Create and send the activation email
-            activationEmail(username, activationKey, userEmail)
-
-            return HttpResponseRedirect('/reg/success')
+        # Register the user
+        registrationProcess(request)
     else:
+        # Send to the registration page with the registration form
         registerDetails['form'] = RegistrationForm()
 
     return render_to_response('reg/reg.html', registerDetails, context_instance=RequestContext(request))
+
+def registrationProcess(request):
+    # This is the main user registration process
+    completeRegistrationForm = RegistrationForm(request.POST)
+    if completeRegistrationForm.is_valid(): 
+        completeRegistrationForm.save()  # save user to the main django User database table if form is valid
+
+        # Start the process of adding the user to the user profile database table
+
+        # Gather cleaned form data
+        username, userEmail, country, address, postcode = cleanFormData(form)
+
+        # Create an activation key
+        activationKey = activationSalt(userEmail)
+
+        # Set user as unconfimed           
+        status = "unconfirmed"
+
+        # Get user by username
+        user = User.objects.get(username=username)
+
+        # Save the new user profile
+        saveNewUserProfile(user, activationKey, status, country, address, postcode)
+
+        # authenticate and login the new user
+        authenticateLogin(username, password=form.cleaned_data['password1'], request)
+
+        # Create and send the activation email
+        activationEmail(username, activationKey, userEmail)
+
+        # Return the user to the registration success page
+        return HttpResponseRedirect('/reg/success')
 
 def acivationEmail(username, activationKey, userEmail):
     # Create activation email subject and body
@@ -95,19 +101,41 @@ def authenticateLogin(username, password, request):
     newUser = authenticate(username=username, password=password)
     login(request, newUser)
 
+@login_required
 def confirm(request):
-    activation_key = request.GET['activation_key']
+    # This is the view for confirming the users activation key and changing their profile status to 'confirmed'
 
-    print 'activation_key is %s' % (activation_key)
+    # Get the activation key
+    sentActivationKey = request.GET['activation_key']
 
-    profile = UserProfile.objects.get(activation_key=activation_key)
-    profile.status = 'confirmed'
-
-    profile.save()
-
-    return render_to_response("reg/confirm.html", context_instance=RequestContext(request))
+    # Get the stored activation key
+    storedActivationKey = storedActivationKey(request)
 
 
+
+
+
+   
+
+    if storedActivationKey == sentActivationKey:
+        profile.status = 'confirmed'
+        profile.save()
+
+        return render_to_response("reg/confirm.html", context_instance=RequestContext(request))
+    else:
+        return HttpResponse('The activation key is wrong. Please try again or contact support')
+
+def storedActivationKey(request):
+    # Get the current user
+    current_user = request.user
+    username = current_user.username
+
+    # Get the user profile
+    profile = UserProfile.objects.get(username=username)
+    # Get the stored activation key
+    storedActivationKey = profile.activation_key
+
+    return storedActivationKey
 
   
 def success(request):
