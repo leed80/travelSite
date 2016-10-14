@@ -43,7 +43,7 @@ def register_user(request):
             saveNewUserProfile(user, activationKey, status, country, address, postcode)
 
             # authenticate and login the new user
-            authenticateLogin(username, password=form.cleaned_data['password1'])
+            authenticateLogin(username, password=form.cleaned_data['password1'], request)
 
             # Create and send the activation email
             activationEmail(username, activationKey, userEmail)
@@ -90,9 +90,9 @@ def cleanFormData(form):
     return (username, userEmail, country, address, postcode)
 
 
-def authenticateLogin(username, password):
+def authenticateLogin(username, password, request):
     # Authenticate and login the new user
-    newUser = authenticate(username=username, password=form.cleaned_data['password1'])
+    newUser = authenticate(username=username, password=password)
     login(request, newUser)
 
 def confirm(request):
