@@ -60,10 +60,10 @@ def registrationProcess(request):
         # Return the user to the registration success page
         return HttpResponseRedirect('/reg/success')
 
-def acivationEmail(username, activationKey, userEmail):
+def activationEmail(username, activationKey, userEmail):
     # Create activation email subject and body
     emailSubject = 'The Adventurer account confirmation'
-    emailBody = 'Hey %s,\n\n Thanks for signing up for The Adventurer. Please click the following link to activate your account: \n\n http://127.0.0.1:8000/reg/confirm/?username=%s&activation_key=%s \n\nThanks\n\nThe Adventurer Team' % (username, username, activationKey)
+    emailBody = 'Hey %s,\n\n Thanks for signing up for The Adventurer. Please click the following link to activate your account: \n\n http://127.0.0.1:8000/reg/confirm/?username=%s&activation_key=%s \n\nThanks\n\n' % (username, username, activationKey)
 
     # send the email using the above subject and body to the user supplied details
     send_mail(emailSubject, emailBody, 'no-reply@theadvr.com',
@@ -72,6 +72,7 @@ def acivationEmail(username, activationKey, userEmail):
 def activationSalt(userEmail):
     # Using the sha1 FIPS secure hash algorith on a randomly generated float thats been converted 
     # to a string. Digesting the hash in hexidecimal from index 0 to, but not including index 5
+    # hello!
     activationSalt = hashlib.sha1(str(random.random())).hexdigest()[:5]  
 
     # Create an activation key using the above salt and the user email using 
@@ -144,55 +145,43 @@ def success(request):
 def user_login(request):
     # The view for logging the user in
 
-    # Check the sent details are correct. If the user is lready authenticated then send them to their profile page
+    # Check the sent details are correct. If the user is already authenticated then send them to their profile page
     if request.user.is_authenticated():
         return render_to_response('advrprof/profile.html', RequestContext(request))
     else:
         # Get the context data for the users request
         context = RequestContext(request)
 
+        # Check for POST method
         if request.method == 'POST':
-            # Gather the username and password provided by the user.
-            # This information is obtained from the login form.
-            username = request.POST['username']
-            password = request.POST['password']
 
-            # Use Django's machinery to attempt to see if the username/password
-            # combination is valid - a User object is returned if it is.
-            user = authenticate(username=username, password=password)
+            user = authenticateUser(request)
 
-            # If we have a User object, the details are correct.
-            # If None (Python's way of representing the absence of a value), no user
-            # with matching credentials was found.
+            # If user is correct then login and send to profile page
             if user:
-                # Is the account active? It could have been disabled.
-                if user.is_active:
-                    # If the account is valid and active, we can log the user in.
-                    # We'll send the user back to the homepage.
-                    login(request, user)
-                    return HttpResponseRedirect('/profile/')
-                else:
-                    # An inactive account was used - no logging in!
-                    return HttpResponse("Your account is disabled.")
+                login(request, user)
+                return HttpResponseRedirect('/profile/')
             else:
-                # Bad login details were provided. So we can't log the user in.
-                print "Invalid login details: {0}, {1}".format(username, password)
+                # The wrong login details were provided
                 invalid = 'yes'
                 args = {'invalid': invalid}
                 return render_to_response('reg/login.html', args, RequestContext(request))
-
-        # The request is not a HTTP POST, so display the login form.
-        # This scenario would most likely be a HTTP GET.
         else:
-            # No context variables to pass to the template system, hence the
-            # blank dictionary object...
+            # POST was not used to return to login form
             return render_to_response('reg/login.html', {}, context)
+
+def authenticateUser(request):
+    # Get username and password and authenticate user
+    username = request.POST['username']
+    password = request.POST['password']
+
+    # Use the django authenticate function with the username and password given
+    user = authenticate(username=username, password=password)
           
-# Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
 def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
+    # Use the djngo logout function to log the current user out and return to homepage
     logout(request)
 
-    # Take the user back to the homepage.
     return render_to_response('homepage/home.html')
+
