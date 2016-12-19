@@ -30,7 +30,7 @@ window.location.href = '/mobile/';
 
             <div id="formblock">
                 {% block content %}            
-                <form class="form" id="form" action="/reg/" method="post">{% csrf_token %}
+                <form class="form" id="form" action="/userProfile/" method="post">{% csrf_token %}
                     <h2 id="create">Create your account</h2>
                     <div class="fieldWrapper">
                     {{form.errors.values.0}}                
@@ -82,7 +82,7 @@ window.location.href = '/mobile/';
                     <br>
                     <br></br>
                     <input type="submit" name="submit" id="reg" class="btn btn-primary" value="Create account">
-                    <a id="login" href="/reg/login/" ><h2 id="login">Login</h2></a>
+                    <a id="login" href="/userProfile/login/" ><h2 id="login">Login</h2></a>
                 </form>
 
                 
