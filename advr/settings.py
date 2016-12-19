@@ -19,6 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 #sys.path.insert(0, os.path.join(PROJECT_ROOT, 'appsfolder'))
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates/'),
+)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -41,15 +45,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'homepage',
-    'reg',
-    'advrprof',
+    'django_countries',
     'rest_framework',
+    'userProfile',
+    'itinerary',
     'analytical',
     'api',
-    'django_countries',
-    'tours',
-    'hotel',
+    'createTour',
+    
     
     
     
@@ -65,7 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+
     
     
 )
@@ -112,9 +115,9 @@ WSGI_APPLICATION = 'advr.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'advrdb',
+        'NAME': 'advr_local',
         'USER': '',
-        'password': '*****',
+        'password': 'dl272727',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -136,8 +139,8 @@ USE_L10N = True
 USE_TZ = True
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = '****'
-EMAIL_HOST_PASSWORD = '*****'
+EMAIL_HOST_USER = 'leed80'
+EMAIL_HOST_PASSWORD = 'dl272727'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

@@ -55,7 +55,7 @@ window.location.href = '/mobile/';
             <p id="delete_stat">{{ invalid }}</p>
                 <h1 id="deleted">Incorrect login details. Please try again.</h1>
                 {% block content %}
-                <form id="form" class="form" method="post" action="/reg/login/">
+                <form id="form" class="form" method="post" action="/userProfile/login/">
                     {% csrf_token %}
                     <input id="formele" class="usernameInput" type="text" name="username" value="Username" size="50" />
                     <br />
