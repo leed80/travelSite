@@ -23,7 +23,9 @@ urlpatterns = [
     url(r'^$', index), 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^userProfile/', include('userProfile.urls')),
-    #url(r'^api/', include('api.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^createTour/', include('createTour.urls')),
+    url(r'^itinerary/', include('itinerary.urls')),
+    url(r'^hotel_management/', include('hotelManagement.urls')),
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -52,11 +52,7 @@ INSTALLED_APPS = (
     'analytical',
     'api',
     'createTour',
-    
-    
-    
-    
-    
+    'hotelManagement', 
 )
 
 
@@ -163,8 +159,11 @@ AUTH_PROFILE_MODULE = "reg.UserProfile"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
 }
+
+
+
 
 
