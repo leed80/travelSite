@@ -1,18 +1,20 @@
 <head>
 
-<script src="/static/js/jquery-1.12.0.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxgkD5hmVMfqFSIojns4PpHR6-4FMY0zY"></script>
-<script src="/static/js/tourpage.js"></script>
 
 <script type="text/javascript">
 //country dictionary
 var countryDictionary = {{ countryDictionary|safe }};
 var destinationsList = {{ destinationsList|safe }};
 var itineraryList = {{ itineraryList|safe }};
-var itineraryID = {{itineraryID }};
+var itineraryID = "{{itineraryID }}";
 
 
 </script>
+<script src="/static/js/jquery-1.12.0.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxgkD5hmVMfqFSIojns4PpHR6-4FMY0zY"></script>
+<script src="/static/js/tourpage.js"></script>
+
+
 
 <style>
        #map {

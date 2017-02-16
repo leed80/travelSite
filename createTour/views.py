@@ -18,6 +18,7 @@ def index(request):
 def details(request):
     if request.method == 'GET':
         if not request.session.session_key:
+            request.session.modified = True
             request.session.save()
 
         session_id = request.session.session_key
@@ -28,41 +29,35 @@ def details(request):
 
         itinerary_already_generated = checkSessionId(session_id)
 
-        print('sessionID =  %s' % (session_id))
+        print('sessionID =  %s' % session_id)
 
         if itinerary_already_generated is "No":
             # Check if the current user is logged in or if they are a guest
             if request.user.is_authenticated():
-                currentUser = request.user
+                current_user = request.user
             else:
-                currentUser = 'Guest'
+                current_user = 'Guest'
 
             # setup the new itinerary
             saved = False
 
             while not saved:
-                itineraryID = createItineraryID(country_id)
-                status = tempItinerarySetup(itineraryID, currentUser, date, travelers, travel_class, country_id,
+                itinerary_id = createItineraryID(country_id)
+                status = tempItinerarySetup(itinerary_id, current_user, date, travelers, travel_class, country_id,
                                             session_id)
                 if not status:
                     saved = True
         else:
             itinerary = tempItinerary.objects.get(session=session_id)
-            itineraryID = itinerary.itineraryID
+            itinerary_id = itinerary.itineraryID
 
-        destinationsList = destinationsRenderData(country_id)
-        countryDictionary = countryRenderData(country_id)
-        itineraryList = itineraryData(country_id, itineraryID)
+        destinations_list = destinations_render_data(country_id)
+        country_dictionary = country_render_data(country_id)
+        itinerary_list = itinerary_data(country_id, itinerary_id)
 
-        args = {}
-        args["country"] = country_id
-        args["date"] = date
-        args["travelers"] = travelers
-        args["class"] = travel_class
-        args["itineraryID"] = itineraryID
-        args["destinationsList"] = destinationsList
-        args["countryDictionary"] = countryDictionary
-        args["itineraryList"] = itineraryList
+        args = {"country": country_id, "date": date, "travelers": travelers, "class": travel_class,
+                "destinationsList": destinations_list, "itineraryID": itinerary_id,
+                "countryDictionary": country_dictionary, "itineraryList": itinerary_list}
 
         return render_to_response('tours/tour.html', args, RequestContext(request))
     else:
@@ -70,74 +65,66 @@ def details(request):
         return render_to_response('homepage/home.html', RequestContext(request))
 
 
-def countryRenderData(countryid):
-    countryData = country.objects.filter(countryid=countryid)
-    countryid = countryData[0].countryid
-    countryName = countryData[0].name
-    countryDescription = countryData[0].description
-    countryLat = countryData[0].lat
-    countryLng = countryData[0].lng
-    countryZoom = countryData[0].zoom
+def country_render_data(country_id):
+    country_data = country.objects.filter(countryid=country_id)
+    country_id = country_data[0].countryid
+    country_name = country_data[0].name
+    country_description = country_data[0].description
+    country_lat = country_data[0].lat
+    country_lng = country_data[0].lng
+    country_zoom = country_data[0].zoom
 
-    countryDictionary = {}
-    countryDictionary["name"] = str(countryName)
-    countryDictionary["ID"] = countryid
-    countryDictionary["description"] = str(countryDescription)
-    countryDictionary["lat"] = countryLat
-    countryDictionary["lng"] = countryLng
-    countryDictionary["zoom"] = countryZoom
+    country_dictionary = {"name": str(country_name), "ID": country_id, "description": str(country_description),
+                          "lat": country_lat, "lng": country_lng, "zoom": country_zoom}
 
-    return countryDictionary
+    return country_dictionary
 
 
-def destinationsRenderData(countryid):
+def destinations_render_data(countryid):
     destinations = destination.objects.filter(countryid=countryid)
-    destinationsList = []
+    destinations_list = []
 
     count = 0
     while count < len(destinations):
-        currentDestination = destinations[count]
-        destinationid = currentDestination.destinationid
-        destinationName = currentDestination.name
-        destinationDescription = currentDestination.description
-        destinationLat = currentDestination.lat
-        destinationLng = currentDestination.lng
-        destinationDictionary = {}
-        destinationDictionary["destinationid"] = destinationid
-        destinationDictionary["name"] = str(destinationName)
-        destinationDictionary["description"] = str(destinationDescription)
-        destinationDictionary["lat"] = destinationLat
-        destinationDictionary["lng"] = destinationLng
-        destinationsList.append(destinationDictionary)
+        current_destination = destinations[count]
+        destination_id = current_destination.destinationid
+        destination_name = current_destination.name
+        destination_description = current_destination.description
+        destination_lat = current_destination.lat
+        destination_lng = current_destination.lng
+        destination_dictionary = {"destinationid": destination_id, "name": str(destination_name),
+                                  "description": str(destination_description), "lat": destination_lat,
+                                  "lng": destination_lng}
+        destinations_list.append(destination_dictionary)
 
-        count = count + 1
-    return destinationsList
+        count += 1
+    return destinations_list
 
 
-def itineraryData(countryid, itineraryID):
+def itinerary_data(countryid, itineraryID):
     # get the current itinerary destinations
     itinerary = tempItinerary.objects.filter(itineraryID=itineraryID)
 
     # return current itinerary destinations as a list
-    destinationsID = itinerary[0].destinations
-    destinationsIDs = str(destinationsID).split(",")
+    destinations_id = itinerary[0].destinations
+    destinations_ids = str(destinations_id).split(",")
 
-    destinationsQuerySet = destination.objects.filter(countryid=countryid)
+    destinations_query_set = destination.objects.filter(countryid=countryid)
 
-    itineraryDestinations = []
+    itinerary_destinations = []
 
-    for item in destinationsIDs:
+    for item in destinations_ids:
         count = 0
-        while count < len(destinationsQuerySet):
-            name = destinationsQuerySet[count].name
-            querySetDestinationID = destinationsQuerySet[count].destinationid
+        while count < len(destinations_query_set):
+            name = destinations_query_set[count].name
+            querySetDestinationID = destinations_query_set[count].destinationid
             if int(item) == querySetDestinationID:
                 parsedDestinations = {}
                 parsedDestinations['destinationID'] = querySetDestinationID
                 parsedDestinations['name'] = str(name)
-                itineraryDestinations.append(parsedDestinations)
+                itinerary_destinations.append(parsedDestinations)
             count = count + 1
-    return itineraryDestinations
+    return itinerary_destinations
 
 
 def checkSessionId(sessionID):
@@ -153,13 +140,13 @@ def tempItinerarySetup(itineraryID, currentUser, date, travelers, travelclass, c
 
     try:
         checkItineraryID = tempItinerary.objects.get(itineraryID=itineraryID)
-        print 'duplicate'
+        print('duplicate')
         return "duplicate"
     except tempItinerary.DoesNotExist:
         makeTempItinerary = tempItinerary(itineraryID=itineraryID, user=currentUser, country=countryid,
                                           travelClass=travelclass, date=date, travelers=travelers, session=sessionID)
         makeTempItinerary.save()
-        print 'saved'
+        print('saved')
 
 
 def createItineraryID(countryid):
@@ -293,23 +280,28 @@ def rooms(hotelId):
         return finalRoomMarkup
 
 
-def itineraryCRUD():
+def itineraryCRUD(request):
     if request.method == "GET":
         operation = request.GET['operation']
         if operation == "update":
-            itineraryID = request.GET['itineraryID']
+            itinerary_id = request.GET['itineraryID']
             destination = request.GET['destinations']
 
-            itinerary = tempItinerary.objects.filter(itineraryID=itineraryID)
+            itinerary = tempItinerary.objects.filter(itineraryID=itinerary_id)
             destinations = itinerary[0].destinations
             countryID = itinerary[0].country
             newDestinations = '%s%s' % (destinations, destination)
             itinerary.destinations = newDestinations
             itinerary.update()
 
-            itineraryList = itineraryData(countryID, itineraryID)
 
-            return HttpResponse(itineraryList)
+            print('%s & %s' % (countryID, itinerary_id))
+
+            itinerary_list = itinerary_data(countryID, itinerary_id)
+
+            print(itinerary_list)
+
+            return HttpResponse(itinerary_list)
 
 
 

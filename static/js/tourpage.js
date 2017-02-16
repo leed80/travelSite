@@ -6,9 +6,7 @@ $(document).ready(function() {
 	var csrftoken;
 	
 	var countryData = getCountryData();
-	var countryID = countryData[0]
-	initMap(countryData);
-
+    initMap(countryData);
 	appendItinerary(itineraryList);
 	destinationClick(destinationsList, itineraryID);
 	
@@ -130,8 +128,9 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 			},
 			success: function(result){
 				console.log('success');
-				// refresh itinerary destinations
+				console.log(result);
 				var itineraryList = result;
+				console.log(itineraryList);
 				appendItinerary(itineraryList);
 			},
 			error: function(error){
