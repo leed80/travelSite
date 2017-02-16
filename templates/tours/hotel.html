@@ -1,0 +1,44 @@
+<head>
+
+<script src="/static/js/jquery-1.12.0.js"></script>
+<script async src="/static/js/hotel.js"></script>
+
+</head>
+
+
+<body>
+
+
+<br>
+***** Add a logo ***** 				 ***** Add a menu*****
+
+
+
+
+
+<div id="tourbody">
+
+	<h2 id="titleCountry"></h2>
+
+	<p id="itineraryID" >{{ itineraryID }}</p>
+
+	
+
+	<div id="destinationBox">
+
+		{% autoescape on %}
+   
+			{{ finalMarkup|safe }}
+
+		{% endautoescape %}
+	
+
+
+	</div>
+
+	
+</div>
+
+</body>
+
+

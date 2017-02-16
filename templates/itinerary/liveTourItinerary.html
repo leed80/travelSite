@@ -1,0 +1,11 @@
+{% for item in itineraryDestinations %}
+
+<h2 id="itineraryDestination{{ item.destinationID }}" class="itineraryDestination">{{ item.name }}</h2>
+<input id="delete{{ item.destinationID }}" class="delete" type="button" value="submit">
+	
+
+
+{% endfor %}
+
+
+
