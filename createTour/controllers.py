@@ -59,9 +59,8 @@ def destinations_render_data(countryid):
 
 def itinerary_data(countryid, itineraryID):
     # get the current itinerary destinations
-    itinerary = tempItinerary.objects.get(itineraryID=itineraryID)
-    itinerary_object = itinerary_destinations_class(countryid, itinerary)
-    itinerary_destinations = itinerary_object.compile_itinerary_data
+    itinerary_object = itineraryCRUDController()
+    itinerary_destinations = itinerary_object.retieve_destinations(countryid, itineraryID)
     return itinerary_destinations
 
 
@@ -89,27 +88,6 @@ class destinations_list_object(object):
         return destinations_list
 
 
-class itinerary_destinations_class(object):
-    def __init__(self, countryid, itinerary):
-        self.itinerary = itinerary
-        self.countryid = countryid
-
-    def compile_itinerary_data(self):
-        destinations_id = self.itinerary.destinations
-        destinations_ids = str(destinations_id).split(",")
-        itinerary_destinations = []
-        for item in destinations_ids:
-            try:
-                destinations_query_set = destination.objects.get(countryid=self.countryid, destinationid=item)
-                name = destinations_query_set.name
-                parsedDestinations = {'destinationID': item, 'name': str(name)}
-                itinerary_destinations.append(parsedDestinations)
-            except destination.DoesNotExist:
-                return {'destinationID': 0, 'name': "You have not added any destinations to your itinerary yet"}
-
-        return itinerary_destinations
-
-
 class itineraryCRUDController(object):
     def create(self, country_id, date, travelers, travel_class, session_id, request):
         # code to create a new itinerary
@@ -128,6 +106,23 @@ class itineraryCRUDController(object):
                 saved = True
 
         return itinerary_id
+
+    def retieve_destinations(self, countryid, itineraryID):
+        itinerary = tempItinerary.objects.get(itineraryID=itineraryID)
+        destinations_id = itinerary.destinations
+        destinations_ids = str(destinations_id).split(",")
+        itinerary_destinations = []
+        for item in destinations_ids:
+            try:
+                destinations_query_set = destination.objects.get(countryid=countryid, destinationid=item)
+                name = destinations_query_set.name
+                parsedDestinations = {'destinationID': item, 'name': str(name)}
+                itinerary_destinations.append(parsedDestinations)
+            except destination.DoesNotExist:
+                return {'destinationID': 0, 'name': "You have not added any destinations to your itinerary yet"}
+
+        return itinerary_destinations
+
 
     def update(self, itineraryID, updateType, updateData):
         # code to update the itinerary
