@@ -5,7 +5,7 @@ $(document).ready(function() {
 	var gmarkers;
 	var csrftoken;
 	
-	var countryData = getCountryData();
+	var countryData = getCountryData(countryDictionary);
     initMap(countryData);
 	appendItinerary(itineraryList);
 	destinationClick(destinationsList, itineraryID);
@@ -91,7 +91,7 @@ function appendItinerary(itineraryList){
 
 }
 
-function getCountryData(){
+function getCountryData(countryDictionary){
 	var countryID = countryDictionary.countryid;
 	var lat = countryDictionary.lat;
 	var lng = countryDictionary.lng;
