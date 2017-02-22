@@ -1,22 +1,110 @@
+<head>
 
-<script src="{{ STATIC_URL }}js/jquery-1.12.0.js"></script>
+
+<script type="text/javascript">
+//country dictionary
+var countryDictionary = {{ countryDictionary|safe }};
+var destinationsList = {{ destinationsList|safe }};
+var itineraryList = {{ itineraryList|safe }};
+var itineraryID = "{{itineraryID }}";
+
+console.log(countryDictionary);
+
+
+</script>
+<script src="/static/js/jquery-1.12.0.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxgkD5hmVMfqFSIojns4PpHR6-4FMY0zY"></script>
 <script src="/static/js/tourpage.js"></script>
-<p id="country">{{ country }}</p>
-<p id="date">{{ date }}</p>
-<p id="travelers">{{ travelers }}</p>
-<p id="class">{{ class }}</p>
 
-We will then use the API and jquery to populate this page with tour data.
 
-Form will then be populated with the necessary data to be sent using jQuery for each tour
+
+<style>
+       #map {
+        height: 400px;
+        width: 50%;
+       }
+</style>
+</head>
+<body>
+
+
+<br>
+***** Add a logo ***** 				 ***** Add a menu*****
+
+
+
+
 
 <div id="tourbody">
 
-	
+	<h2 id="titleCountry">{{ countryDictionary.name }}</h2>
 
 
+	<p id="itineraryID" >{{ itineraryID }}</p>
+	<form id="complete" action="/createTour/hotels/" method="GET">
+		<input type="text" value="{{ itineraryID }}" name="itineraryID">
+		<input type="submit" value="Itinerary Complete">
 
+	</form>
+
+	<input id="delete" type="button" value="Delete Itinerary">
+
+	<div id="destinationBox">
+
+		<div id="destinationSelect">
+			{% for destination in destinationsList %}
+
+					<h3 id="destinationTitle{{ destination.destinationid }}" class="destinationTitle">{{destination.name}}</h3>
+
+
+			{% endfor %}
+		
+		</div>
+
+		<div id="map">	
+
+		</div>
+
+	</div>
+
+	<div id="descriptionArea">
+
+		<div id="itineraryAddButton">
+			<input class="addItinerary" id="" type="button" value="Add to Itinerary"/>
+		</div>
+		
+
+		<div id="description">
+
+
+			<h3 id="titleDescriptionCountry" class="titleDescription">{{countryDictionary.name}} Preview</h3>
+
+			<p id="descriptionCountry" class="description">{{ countryDictionary.description }}</p>
+			
+		</div>
+
+		<div id="itineraryContainer">
+
+			
+
+			<div id="itineraryOverview">
+
+
+				
+
+			</div>
+
+			<div id="routeTransport">
+				***** show how to get between destination (transport options). Popultae the description field *****
+
+			</div>
+
+		</div>
+
+	</div>
 
 </div>
+
+</body>
 
 

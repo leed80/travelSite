@@ -11,94 +11,47 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='activities',
+            name='country',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('refNumber', models.CharField(max_length=40)),
-                ('title', models.CharField(max_length=40)),
+                ('countryid', models.IntegerField(default=0)),
+                ('name', models.CharField(default='unknown', max_length=100)),
                 ('description', models.TextField(max_length=10000)),
+                ('lat', models.FloatField(default=11.111, max_length=10000)),
+                ('lng', models.FloatField(default=111.111, max_length=10000)),
+                ('zoom', models.IntegerField(default=4, max_length=100)),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='hotelRoomTypes',
+            name='destination',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('refNumber', models.CharField(max_length=40)),
-                ('title', models.CharField(max_length=100)),
-                ('beds', models.CharField(max_length=100)),
-                ('amenities', models.TextField(max_length=10000)),
+                ('destinationid', models.IntegerField(default=0)),
+                ('name', models.CharField(max_length=100)),
+                ('countryid', models.IntegerField(default=1)),
+                ('description', models.TextField(max_length=10000)),
+                ('lat', models.FloatField(default=11.111, max_length=10000)),
+                ('lng', models.FloatField(default=111.111, max_length=10000)),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='hotelTable',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('refNumber', models.CharField(max_length=40)),
-                ('title', models.CharField(max_length=40)),
-                ('description', models.TextField(max_length=10000)),
-                ('stop', models.CharField(max_length=40)),
-                ('travelClass', models.CharField(max_length=40)),
-                ('eanhotelid', models.IntegerField()),
-                ('address', models.CharField(max_length=40)),
-                ('location', models.CharField(max_length=40)),
-                ('amenities', models.TextField(max_length=10000)),
-                ('policies', models.TextField(max_length=10000)),
-                ('roomtypecode', models.IntegerField()),
-                ('ratecode', models.IntegerField()),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='stopTable',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('refNumber', models.CharField(max_length=40)),
-                ('title', models.CharField(max_length=40)),
-                ('description', models.TextField(max_length=10000)),
-                ('lengthofstay', models.IntegerField()),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='tourTable',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('refNumber', models.CharField(max_length=40)),
-                ('title', models.CharField(max_length=40)),
-                ('description', models.TextField(max_length=10000)),
-                ('country', models.CharField(max_length=40)),
-                ('travelClass', models.CharField(max_length=40)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='stoptable',
-            name='tour',
-            field=models.ForeignKey(to='createTour.tourTable'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='hotelroomtypes',
             name='hotel',
-            field=models.ForeignKey(to='createTour.hotelTable'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='activities',
-            name='stop',
-            field=models.ForeignKey(to='createTour.stopTable'),
-            preserve_default=True,
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+                ('address', models.CharField(max_length=100)),
+                ('description', models.TextField(max_length=10000)),
+                ('destinationid', models.IntegerField(default=1)),
+                ('rating', models.IntegerField(default=1)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
         ),
     ]

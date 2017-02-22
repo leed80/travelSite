@@ -1,0 +1,13 @@
+<h1>This is the add a hotel page</h1>
+
+<p>{{ saved }}</p>
+
+<form method="post" action="/hotel_management/addHotel/">{% csrf_token %}
+
+<input type="text" value="please enter expedia hotel ID" name="hotelID">
+<input type="text" value="please enter the country code" name="country">
+<input type="text" value="please enter the destination code" name="destination">
+<input type="submit" value="submit">
+
+</form>
+
