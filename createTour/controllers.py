@@ -111,22 +111,31 @@ class itineraryCRUDController(object):
         itinerary = tempItinerary.objects.get(itineraryID=itineraryID)
         destinations_id = itinerary.destinations
         destinations_ids = str(destinations_id).split(",")
+        print "destinations is %s" % destinations_ids
         itinerary_destinations = []
         for item in destinations_ids:
-            try:
+            print "item is %s" % item
+            if item != '0':
                 destinations_query_set = destination.objects.get(countryid=countryid, destinationid=item)
                 name = destinations_query_set.name
                 parsedDestinations = {'destinationID': item, 'name': str(name)}
                 itinerary_destinations.append(parsedDestinations)
-            except destination.DoesNotExist:
-                return {'destinationID': 0, 'name': "You have not added any destinations to your itinerary yet"}
+
 
         return itinerary_destinations
 
 
-    def update(self, itineraryID, updateType, updateData):
-        # code to update the itinerary
-        print('hello')
+    def update_destinations(self, request):
+        itinerary_id = request.GET['itineraryID']
+        destination = request.GET['destinations']
+        itinerary = tempItinerary.objects.get(itineraryID=itinerary_id)
+        country_id = itinerary.country
+        newDestinations = '%s' % (destination)
+
+        itinerary.destinations = newDestinations
+        itinerary.save()
+        return [country_id, itinerary_id]
+
 
     def delete(self, itineraryID):
         # code to delete the itinerary
@@ -144,6 +153,18 @@ def tempItinerarySetup(itineraryID, currentUser, date, travelers, travelclass, c
                                           travelClass=travelclass, date=date, travelers=travelers, session=sessionID)
         makeTempItinerary.save()
         print('saved')
+
+
+def itineraryUpdateDeleteController(request):
+    operation = request.GET['operation']
+    if operation == "update":
+        itineraryUpdate = itineraryCRUDController()
+        itineraryData = itineraryUpdate.update_destinations(request)
+        itinerary_list = itineraryUpdate.retieve_destinations(itineraryData[0], itineraryData[1])
+        print "itinerary Data is %s & %s" % (itineraryData[0], itineraryData[1])
+        return itinerary_list
+
+
 
 
 def createItineraryID(countryid):
@@ -269,22 +290,3 @@ def rooms(hotelId):
         return finalRoomMarkup
 
 
-def itineraryUpdateDeleteController(request):
-    operation = request.GET['operation']
-    if operation == "update":
-        itinerary_id = request.GET['itineraryID']
-        destination = request.GET['destinations']
-        itinerary = tempItinerary.objects.filter(itineraryID=itinerary_id)
-        destinations = itinerary[0].destinations
-        countryID = itinerary[0].country
-        newDestinations = '%s%s' % (destinations, destination)
-        itinerary.destinations = newDestinations
-        itinerary.update()
-
-        print('%s & %s' % (countryID, itinerary_id))
-
-        itinerary_list = itinerary_data(countryID, itinerary_id)
-
-        print(itinerary_list)
-
-        return itinerary_list

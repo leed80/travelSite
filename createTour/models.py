@@ -18,7 +18,7 @@ class country(models.Model):
 		return '%s %s %s %s %s %s' % (self.countryid, self.name, self.description, self.lat, self.lng, self.zoom)
 
 class destination(models.Model):
-	destinationid = models.IntegerField(default=0)
+	destinationid = models.IntegerField(default='')
 	name = models.CharField(max_length=100)
 	countryid = models.IntegerField(default=1)
 	description = models.TextField(max_length=10000)

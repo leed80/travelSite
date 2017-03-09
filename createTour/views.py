@@ -1,11 +1,12 @@
 from __future__ import print_function
 
-
+from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from createTour.controllers import *
+import json
 
 
 def index(request):
@@ -31,8 +32,14 @@ def hotels(request):
 def itineraryUpdateDeleteView(request):
     # View to update and delete itinerary
     if request.method == "GET":
+
         itinerary_list = itineraryUpdateDeleteController(request)
-        return HttpResponse(itinerary_list)
+
+        response = json.dumps(itinerary_list)
+        print(response)
+
+
+        return HttpResponse(response)
 
 
 

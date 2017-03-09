@@ -8,34 +8,95 @@ $(document).ready(function() {
 	var countryData = getCountryData(countryDictionary);
     initMap(countryData);
 	appendItinerary(itineraryList);
-	destinationClick(destinationsList, itineraryID);
+	console.log(itineraryList);
+	destinationClick(destinationsList, itineraryList);
+	deleteDestination(itineraryList, itineraryID);
 	
 
 });
 
-
-
-
-
 // ****************** ALL DESTINATION FUNCTIONS *******************************************
 
 // **** TO DO This File ******
-	// Add an on click event to add new itinerary destination, save and reload on the page
-	// Add an on click event to delete an itinerary, update and return the new code
-	// Add an on click evennt for the country to display description
+// delete itinerary destination
+// delete temp itinerary
 
-function addDestinationItinerary(destinationid, itineraryID){
+function deleteDestination(itineraryList, itineraryID){
+    $('#itineraryContainer').on('click', '.delete', function(){
+        console.log('clicked');
+        var destinationToDeleteFull = $(this).attr('id');
+        var destinationToDelete = destinationToDeleteFull.replace('delete', '');
+        var updatedDestinations = []
+
+        // get destination itinerary list compile a destination list in that order
+        for(x=0;x<itineraryList.length;x++){
+	        var currentItineraryDestination = itineraryList[x];
+	        var currentDestinationid = currentItineraryDestination.destinationID;
+
+	        if(currentDestinationid != destinationToDelete){
+	            updatedDestinations.push(currentDestinationid);
+
+	        }
+        }
+
+
+        // pass new list to the ajax function with itineraryID and the operation as update
+
+        var destinationsToUpdate = updatedDestinations.toString();
+
+        if(destinationsToUpdate == ""){
+            destinationsToUpdate = "0";
+        }
+        var operation = "update";
+
+        updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation);
+
+
+
+    });
+}
+
+
+function addDestinationItinerary(destinationid, itineraryList){
 	$('.addItinerary').on('click', function(){
-		var operation = "update";
-		updateItineraryAjaxCall(destinationid, itineraryID, operation);
+	    var dontGo = 0;
+
+	    var updatedDestinations = [];
+
+	    for(x=0;x<itineraryList.length;x++){
+	        var currentItineraryDestination = itineraryList[x];
+	        var currentDestinationid = currentItineraryDestination.destinationID;
+	        console.log(currentDestinationid + ' , ' + destinationid);
+
+	        if (currentDestinationid == destinationid.toString()){
+	            alert('this destination is already on your itinerary');
+	            dontGo = 1;
+	            break;
+
+            } else{
+
+	            updatedDestinations.push(currentDestinationid)
+            }
+        }
+
+        updatedDestinations.push(destinationid);
+
+        console.log('dontGo = ' + dontGo);
+
+        if (dontGo == 0) {
+
+            var destinationsToUpdate = updatedDestinations.toString();
+            var operation = "update";
+            updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation);
+        }
+
 		
 
 	});
 }
 
 
-
-function destinationClick(destinationDictionary){
+function destinationClick(destinationDictionary, itineraryList){
 	gmarkers = [];
 	$('.destinationTitle').on('click', function(){
 		removeMarkers(gmarkers)
@@ -55,11 +116,9 @@ function destinationClick(destinationDictionary){
 			}
 		}
 
-
-
 		updateCurrentDestinationMarkup(destinationID, destinationName, destinationDescription);
 
-		addDestinationItinerary(destinationID, itineraryID);
+		addDestinationItinerary(destinationID, itineraryList);
 
 		var gmarker = destinationMarker(lat, lng, destinationID);	
 		gmarkers.push(gmarker);
@@ -76,8 +135,9 @@ function updateCurrentDestinationMarkup(destinationID, destinationName, destinat
 }
 
 function appendItinerary(itineraryList){
-	var x=0;
-	while(x<itineraryList.length){
+    $('#itineraryContainer').empty();
+	console.log(itineraryList.length);
+	for(x=0;x<itineraryList.length;x++){
 		var currentDestination = itineraryList[x];
 		var name = currentDestination.name;
 		var destinationID = currentDestination.destinationID;
@@ -86,7 +146,7 @@ function appendItinerary(itineraryList){
 		var itineraryDeleteHTML = '<input id="delete' + destinationID + '" class="delete" type="button" value="delete">';
 		$('#itineraryContainer').append(itineraryNameHTML);
 		$('#itineraryContainer').append(itineraryDeleteHTML);
-		x++;
+
 	}
 
 }
@@ -117,7 +177,7 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 
 	// Ajax call to insert new destination data
 	$.ajax({
-		url: '/createTour/itinerarycrud/',
+		url: '/createTour/itinerary_update_delete/',
 		type: 'GET',
 		data: {	
 				
@@ -128,14 +188,21 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 			},
 			success: function(result){
 				console.log('success');
-				console.log(result);
-				var itineraryList = result;
-				console.log(itineraryList);
+				itineraryList = jQuery.parseJSON(result);
+
+
+
+					console.log(itineraryList);
+
 				appendItinerary(itineraryList);
+
 			},
+
 			error: function(error){
 				console.log('didnt work');
-			}
+			},
+        async: false
+
 	});
 }
 
