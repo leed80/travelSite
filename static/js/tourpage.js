@@ -7,10 +7,10 @@ $(document).ready(function() {
 	
 	var countryData = getCountryData(countryDictionary);
     initMap(countryData);
-	appendItinerary(itineraryList);
-	console.log(itineraryList);
-	destinationClick(destinationsList, itineraryList);
-	deleteDestination(itineraryList, itineraryID);
+	getItineraryAjax(countryID, itineraryID);
+
+	destinationClick(destinationsList, itineraryID);
+	deleteDestination(itineraryID);
 	
 
 });
@@ -21,7 +21,7 @@ $(document).ready(function() {
 // delete itinerary destination
 // delete temp itinerary
 
-function deleteDestination(itineraryList, itineraryID){
+function deleteDestination(itineraryID){
     $('#itineraryContainer').on('click', '.delete', function(){
         console.log('clicked');
         var destinationToDeleteFull = $(this).attr('id');
@@ -56,47 +56,54 @@ function deleteDestination(itineraryList, itineraryID){
     });
 }
 
+function getItineraryAjax(countryID, itineraryID) {
 
-function addDestinationItinerary(destinationid, itineraryList){
+
+
+
+    // Ajax call to get itinerary
+    $.ajax({
+        url: '/createTour/itinerary_update_delete/',
+        type: 'GET',
+        data: {
+
+            "countryID": countryID,
+            "itineraryID": itineraryID,
+            "operation": 'get',
+
+        },
+        success: function (result) {
+            console.log('success');
+            itineraryList = jQuery.parseJSON(result);
+
+
+            console.log(itineraryList);
+
+            appendItinerary(itineraryList);
+
+        },
+
+        error: function (error) {
+            console.log('didnt work');
+        },
+        async: false
+    });
+}
+
+function addDestinationItinerary(destinationid, itineraryID){
 	$('.addItinerary').on('click', function(){
-	    var dontGo = 0;
 
-	    var updatedDestinations = [];
+		operation = 'update';
 
-	    for(x=0;x<itineraryList.length;x++){
-	        var currentItineraryDestination = itineraryList[x];
-	        var currentDestinationid = currentItineraryDestination.destinationID;
-	        console.log(currentDestinationid + ' , ' + destinationid);
 
-	        if (currentDestinationid == destinationid.toString()){
-	            alert('this destination is already on your itinerary');
-	            dontGo = 1;
-	            break;
+		updateItineraryAjaxCall(destinationid, itineraryID, operation);
 
-            } else{
-
-	            updatedDestinations.push(currentDestinationid)
-            }
-        }
-
-        updatedDestinations.push(destinationid);
-
-        console.log('dontGo = ' + dontGo);
-
-        if (dontGo == 0) {
-
-            var destinationsToUpdate = updatedDestinations.toString();
-            var operation = "update";
-            updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation);
-        }
-
-		
 
 	});
 }
 
 
-function destinationClick(destinationDictionary, itineraryList){
+function destinationClick(destinationDictionary, itineraryID){
 	gmarkers = [];
 	$('.destinationTitle').on('click', function(){
 		removeMarkers(gmarkers)
@@ -118,7 +125,7 @@ function destinationClick(destinationDictionary, itineraryList){
 
 		updateCurrentDestinationMarkup(destinationID, destinationName, destinationDescription);
 
-		addDestinationItinerary(destinationID, itineraryList);
+		addDestinationItinerary(destinationID, itineraryID);
 
 		var gmarker = destinationMarker(lat, lng, destinationID);	
 		gmarkers.push(gmarker);
@@ -190,11 +197,18 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 				console.log('success');
 				itineraryList = jQuery.parseJSON(result);
 
-
-
+				if(itineraryList == 'NO'){
+					alert('This destination is already added');
+				} else{
 					console.log(itineraryList);
+					appendItinerary(itineraryList);
 
-				appendItinerary(itineraryList);
+				}
+
+
+
+
+
 
 			},
 

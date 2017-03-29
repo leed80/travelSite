@@ -34,6 +34,7 @@ def itineraryUpdateDeleteView(request):
     if request.method == "GET":
 
         itinerary_list = itineraryUpdateDeleteController(request)
+        print('here %s' % itinerary_list)
 
         response = json.dumps(itinerary_list)
         print(response)

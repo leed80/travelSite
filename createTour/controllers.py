@@ -14,7 +14,7 @@ def createTourMainController(request):
         request.session.save()
 
     session_id = request.session.session_key
-    country_id = request.GET['country']
+    country_id = str(request.GET['country'])
     date = request.GET['date']
     travelers = request.GET['travelers']
     travel_class = request.GET['class']
@@ -30,15 +30,14 @@ def createTourMainController(request):
     else:
         # get current itinerary using sessionid
         itinerary = tempItinerary.objects.get(session=session_id)
-        itinerary_id = itinerary.itineraryID
+        itinerary_id = str(itinerary.itineraryID)
     # get the following objects to populate the page
     destinations_list = destinations_render_data(country_id)
     country_dictionary = country_render_data(country_id)
-    itinerary_list = itinerary_data(country_id, itinerary_id)
     # add the objects into a dictionary to be passed to the view
     args = {"country": country_id, "date": date, "travelers": travelers, "class": travel_class,
             "destinationsList": destinations_list, "itineraryID": itinerary_id,
-            "countryDictionary": country_dictionary, "itineraryList": itinerary_list}
+            "countryDictionary": country_dictionary}
 
     return args
 
@@ -61,6 +60,7 @@ def itinerary_data(countryid, itineraryID):
     # get the current itinerary destinations
     itinerary_object = itineraryCRUDController()
     itinerary_destinations = itinerary_object.retieve_destinations(countryid, itineraryID)
+    print(itinerary_destinations)
     return itinerary_destinations
 
 
@@ -120,6 +120,8 @@ class itineraryCRUDController(object):
                 name = destinations_query_set.name
                 parsedDestinations = {'destinationID': item, 'name': str(name)}
                 itinerary_destinations.append(parsedDestinations)
+            else:
+                itinerary_destinations.append(item)
 
 
         return itinerary_destinations
@@ -163,8 +165,13 @@ def itineraryUpdateDeleteController(request):
         itinerary_list = itineraryUpdate.retieve_destinations(itineraryData[0], itineraryData[1])
         print "itinerary Data is %s & %s" % (itineraryData[0], itineraryData[1])
         return itinerary_list
-
-
+    elif operation == "get":
+        itineraryID = request.GET['itineraryID']
+        print('itinerary = %s' % itineraryID)
+        countryID = request.GET['countryID']
+        print('countryid = %s' % countryID)
+        itinerary_list = itinerary_data(countryID, itineraryID)
+        return itinerary_list
 
 
 def createItineraryID(countryid):
