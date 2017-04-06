@@ -22,7 +22,7 @@ def createTourMainController(request):
 
     if itinerary_already_generated is "No":
         # create a new itinerary
-        newItinerary = itineraryCRUDController()
+        newItinerary = itineraryCRUD()
         newItinerary.create(country_id=country_id, date=date, travelers=travelers, travel_class=travel_class,
                             session_id=session_id, request=request)
         itinerary = tempItinerary.objects.get(session=session_id)
@@ -58,7 +58,7 @@ def destinations_render_data(countryid):
 
 def itinerary_data(countryid, itineraryID):
     # get the current itinerary destinations
-    itinerary_object = itineraryCRUDController()
+    itinerary_object = itineraryCRUD()
     itinerary_destinations = itinerary_object.retieve_destinations(countryid, itineraryID)
     print(itinerary_destinations)
     return itinerary_destinations
@@ -88,7 +88,11 @@ class destinations_list_object(object):
         return destinations_list
 
 
-class itineraryCRUDController(object):
+class itineraryCRUD(object):
+
+    def __init__(self, itineraryID='null'):
+        self.itineraryID = itineraryID
+
     def create(self, country_id, date, travelers, travel_class, session_id, request):
         # code to create a new itinerary
         # Check if the current user is logged in or if they are a guest
@@ -107,8 +111,8 @@ class itineraryCRUDController(object):
 
         return itinerary_id
 
-    def retieve_destinations(self, countryid, itineraryID):
-        itinerary = tempItinerary.objects.get(itineraryID=itineraryID)
+    def retieve_destinations(self, countryid):
+        itinerary = tempItinerary.objects.get(itineraryID=self.itineraryID)
         destinations_id = itinerary.destinations
         destinations_ids = str(destinations_id).split(",")
         print "destinations is %s" % destinations_ids
@@ -127,21 +131,40 @@ class itineraryCRUDController(object):
         return itinerary_destinations
 
 
-    def update_destinations(self, request):
-        itinerary_id = request.GET['itineraryID']
-        destination = request.GET['destinations']
-        itinerary = tempItinerary.objects.get(itineraryID=itinerary_id)
+    def update_destinations(self, newDestination):
+        # Get the itinerary object
+        itinerary = tempItinerary.objects.get(itineraryID=self.itineraryID)
+        #Get the country from the itinerary object
         country_id = itinerary.country
-        newDestinations = '%s' % (destination)
+        # Get the current destitnation from the object
+        currentDestinations = itinerary.destinations
+        # Check to see if the destination is currently in the itinerary
+        status = destinationCheck(currentDestinations, newDestination)
 
-        itinerary.destinations = newDestinations
-        itinerary.save()
-        return [country_id, itinerary_id]
+        if status == 1:
+            # If there is no duplicates
+            newDestinations = '%s,%s' % (currentDestinations,newDestination)
+            itinerary.destinations = newDestinations
+            itinerary.save()
+            return country_id
+        else:
+            return "no"
+
 
 
     def delete(self, itineraryID):
         # code to delete the itinerary
         print('hello')
+
+def destinationCheck(currentDestinations, newDestination):
+    currentDestinationsSplit = currentDestinations.split(',')
+    for destination in currentDestinationsSplit:
+        if destination == newDestination:
+            return 0
+    return 1
+
+
+
 
 
 def tempItinerarySetup(itineraryID, currentUser, date, travelers, travelclass, countryid, sessionID):
@@ -160,18 +183,21 @@ def tempItinerarySetup(itineraryID, currentUser, date, travelers, travelclass, c
 def itineraryUpdateDeleteController(request):
     operation = request.GET['operation']
     if operation == "update":
-        itineraryUpdate = itineraryCRUDController()
-        itineraryData = itineraryUpdate.update_destinations(request)
-        itinerary_list = itineraryUpdate.retieve_destinations(itineraryData[0], itineraryData[1])
-        print "itinerary Data is %s & %s" % (itineraryData[0], itineraryData[1])
-        return itinerary_list
-    elif operation == "get":
+        destination = request.GET['destinations']
         itineraryID = request.GET['itineraryID']
-        print('itinerary = %s' % itineraryID)
+        itineraryUpdate = itineraryCRUD(itineraryID)
+        itineraryData = itineraryUpdate.update_destinations(destination)
+        if itineraryData == 'no':
+            return itineraryData
+        else:
+            itinerary_list = itineraryUpdate.retieve_destinations(itineraryData)
+            return itinerary_list
+    elif operation == "get":
         countryID = request.GET['countryID']
-        print('countryid = %s' % countryID)
-        itinerary_list = itinerary_data(countryID, itineraryID)
-        return itinerary_list
+        itineraryID = request.GET['itineraryID']
+        itineraryGet = itineraryCRUD(itineraryID)
+        itineraryList = itineraryGet.retieve_destinations(countryID)
+        return itineraryList
 
 
 def createItineraryID(countryid):
@@ -295,5 +321,14 @@ def rooms(hotelId):
         finalRoomMarkup = '%s %s %s %s %s' % (
             roomContainerStart, roomNameMarkup, roomDescriptionMarkup, ratesMarkup, roomContainerEnd)
         return finalRoomMarkup
+
+
+
+
+
+
+
+
+
 
 

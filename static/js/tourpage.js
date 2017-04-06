@@ -194,22 +194,13 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 				
 			},
 			success: function(result){
-				console.log('success');
-				itineraryList = jQuery.parseJSON(result);
 
-				if(itineraryList == 'NO'){
+				if(result == 'NO'){
 					alert('This destination is already added');
 				} else{
-					console.log(itineraryList);
+					itineraryList = jQuery.parseJSON(result);
 					appendItinerary(itineraryList);
-
 				}
-
-
-
-
-
-
 			},
 
 			error: function(error){
