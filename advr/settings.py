@@ -135,8 +135,8 @@ USE_L10N = True
 USE_TZ = True
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'leed80'
-EMAIL_HOST_PASSWORD = 'dl272727'
+EMAIL_HOST_USER = '****'
+EMAIL_HOST_PASSWORD = '********'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
