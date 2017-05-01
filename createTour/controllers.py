@@ -56,10 +56,10 @@ def destinations_render_data(countryid):
     return destinations_list
 
 
-def itinerary_data(countryid, itineraryID):
+def itinerary_data(countryID, itineraryID):
     # get the current itinerary destinations
     itinerary_object = itineraryCRUD()
-    itinerary_destinations = itinerary_object.retieve_destinations(countryid, itineraryID)
+    itinerary_destinations = itinerary_object.retieve_destinations(countryID, itineraryID)
     print(itinerary_destinations)
     return itinerary_destinations
 
