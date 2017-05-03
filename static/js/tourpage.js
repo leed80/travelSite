@@ -7,35 +7,103 @@ $(document).ready(function() {
 	
 	var countryData = getCountryData(countryDictionary);
     initMap(countryData);
-	appendItinerary(itineraryList);
+	getItineraryAjax(countryID, itineraryID);
+
 	destinationClick(destinationsList, itineraryID);
+	deleteDestination(itineraryID);
 	
 
 });
 
-
-
-
-
 // ****************** ALL DESTINATION FUNCTIONS *******************************************
 
 // **** TO DO This File ******
-	// Add an on click event to add new itinerary destination, save and reload on the page
-	// Add an on click event to delete an itinerary, update and return the new code
-	// Add an on click evennt for the country to display description
+// delete itinerary destination
+// delete temp itinerary
+
+function deleteDestination(itineraryID){
+    $('#itineraryContainer').on('click', '.delete', function(){
+        console.log('clicked');
+        var destinationToDeleteFull = $(this).attr('id');
+        var destinationToDelete = destinationToDeleteFull.replace('delete', '');
+        var updatedDestinations = []
+
+        // get destination itinerary list compile a destination list in that order
+        for(x=0;x<itineraryList.length;x++){
+	        var currentItineraryDestination = itineraryList[x];
+	        var currentDestinationid = currentItineraryDestination.destinationID;
+
+	        if(currentDestinationid != destinationToDelete){
+	            updatedDestinations.push(currentDestinationid);
+
+	        }
+        }
+
+
+        // pass new list to the ajax function with itineraryID and the operation as update
+
+        var destinationsToUpdate = updatedDestinations.toString();
+
+        if(destinationsToUpdate == ""){
+            destinationsToUpdate = "0";
+        }
+        var operation = "update";
+
+        updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation);
+
+
+
+    });
+}
+
+function getItineraryAjax(countryID, itineraryID) {
+
+
+
+
+    // Ajax call to get itinerary
+    $.ajax({
+        url: '/createTour/itinerary_update_delete/',
+        type: 'GET',
+        data: {
+
+            "countryID": countryID,
+            "itineraryID": itineraryID,
+            "operation": 'get',
+
+        },
+        success: function (result) {
+            console.log('success');
+            itineraryList = jQuery.parseJSON(result);
+
+
+            console.log(itineraryList);
+
+            appendItinerary(itineraryList);
+
+        },
+
+        error: function (error) {
+            console.log('didnt work');
+        },
+        async: false
+    });
+}
 
 function addDestinationItinerary(destinationid, itineraryID){
 	$('.addItinerary').on('click', function(){
-		var operation = "update";
+
+		operation = 'update';
+
+
 		updateItineraryAjaxCall(destinationid, itineraryID, operation);
-		
+
 
 	});
 }
 
 
-
-function destinationClick(destinationDictionary){
+function destinationClick(destinationDictionary, itineraryID){
 	gmarkers = [];
 	$('.destinationTitle').on('click', function(){
 		removeMarkers(gmarkers)
@@ -54,8 +122,6 @@ function destinationClick(destinationDictionary){
 				break;
 			}
 		}
-
-
 
 		updateCurrentDestinationMarkup(destinationID, destinationName, destinationDescription);
 
@@ -76,8 +142,9 @@ function updateCurrentDestinationMarkup(destinationID, destinationName, destinat
 }
 
 function appendItinerary(itineraryList){
-	var x=0;
-	while(x<itineraryList.length){
+    $('#itineraryContainer').empty();
+	console.log(itineraryList.length);
+	for(x=0;x<itineraryList.length;x++){
 		var currentDestination = itineraryList[x];
 		var name = currentDestination.name;
 		var destinationID = currentDestination.destinationID;
@@ -86,7 +153,7 @@ function appendItinerary(itineraryList){
 		var itineraryDeleteHTML = '<input id="delete' + destinationID + '" class="delete" type="button" value="delete">';
 		$('#itineraryContainer').append(itineraryNameHTML);
 		$('#itineraryContainer').append(itineraryDeleteHTML);
-		x++;
+
 	}
 
 }
@@ -117,7 +184,7 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 
 	// Ajax call to insert new destination data
 	$.ajax({
-		url: '/createTour/itinerarycrud/',
+		url: '/createTour/itinerary_update_delete/',
 		type: 'GET',
 		data: {	
 				
@@ -127,15 +194,20 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 				
 			},
 			success: function(result){
-				console.log('success');
-				console.log(result);
-				var itineraryList = result;
-				console.log(itineraryList);
-				appendItinerary(itineraryList);
+
+				if(result == 'NO'){
+					alert('This destination is already added');
+				} else{
+					itineraryList = jQuery.parseJSON(result);
+					appendItinerary(itineraryList);
+				}
 			},
+
 			error: function(error){
 				console.log('didnt work');
-			}
+			},
+        async: false
+
 	});
 }
 
