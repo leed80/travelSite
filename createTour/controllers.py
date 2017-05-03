@@ -1,3 +1,5 @@
+from createTour.functions import destinationCheck, destinations_render_data, country_render_data, createItineraryID, \
+    checkSessionId
 from createTour.views import itineraryPageView, homepage
 from createTour.views import itineraryPageView, homepage
 from itinerary.models import tempItinerary
@@ -101,6 +103,7 @@ class Tour:
 
 
     def deleteItinerary(self):
+        return "I'm an incomplete method, please finish me :("
 
 
 def itineraryUpdateDelete(request):
