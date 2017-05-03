@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from createTour.controllers import *
 import json
 
 
@@ -13,15 +12,24 @@ def index(request):
     # Homepage view
     return render_to_response('homepage/home.html', RequestContext(request))
 
-def details(request):
-    # Tour destination select page view
-    if request.method == 'GET':
-        args = createTourMainController(request)
-        print(args)
-        return render_to_response('tours/tour.html', args, RequestContext(request))
-    else:
-        # go back to the homepage
-        return render_to_response('homepage/home.html', RequestContext(request))
+
+class homepage:
+    def __init__(self, request):
+        self.request = request
+
+
+    def load(self):
+        return render_to_response('homepage/home.html', RequestContext(self.request))
+
+
+class itineraryPageView:
+    def __init__(self, templateData, request):
+
+        self.templateData = templateData
+        self.request = request
+
+    def load(self):
+        return render_to_response('tours/tour.html', self.templateData, RequestContext(self.request))
 
 def hotels(request):
     # Hotel select page view
@@ -29,23 +37,12 @@ def hotels(request):
         args = mainHotelController(request)
     return render_to_response('tours/hotel.html', args, RequestContext(request))
 
-def itineraryUpdateDeleteView(request):
-    # View to update and delete itinerary
-    if request.method == "GET":
+class itineraryAjaxView:
+    def __init__(self, response):
+        self.response = response
 
-        itinerary_list = itineraryUpdateDeleteController(request)
-
-        if itinerary_list == 'no':
-            response = "NO"
-            return HttpResponse(response)
-        else:
-            print('here %s' % itinerary_list)
-
-            response = json.dumps(itinerary_list)
-            print(response)
-
-
-            return HttpResponse(response)
+    def load(self):
+        return HttpResponse(self.response)
 
 
 
