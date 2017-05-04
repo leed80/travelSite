@@ -178,6 +178,7 @@ def itineraryUpdateDeleteController(request):
 
 
 def createItineraryID(countryid):
+    # type: (object) -> object
     # This function creates the itineraryID
     timestamp = str(time.time())
     itineraryID = hashlib.md5(timestamp + countryid).hexdigest()

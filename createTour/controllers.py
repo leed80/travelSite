@@ -1,6 +1,7 @@
 from createTour.functions import destinationCheck, destinations_render_data, country_render_data, createItineraryID, \
     checkSessionId, getFormData, userCheck
-from createTour.views import itineraryPageView, homepage, itineraryAjaxView
+from createTour.models import destination
+from createTour.views import itineraryAjaxView
 from createTour.views import itineraryPageView, homepage
 from itinerary.models import tempItinerary
 
@@ -32,28 +33,29 @@ def tourController(request):
 
 class Tour:
 
-    def __init__(self, session_id, user):
+    def __init__(self, session_id=None, user=None, itinerary_id=None):
         self.country_id = None
         self.date = None
         self.travelers = None
         self.travel_class = None
         self.user = user
         self.session_id = session_id
-        self.itineraryID = None
+        self.itineraryID = itinerary_id
         self.destinations_list = None
         self.countryDictionary = None
         self.templateData = None
         self.itineraryData = None
         self.destination = None #for use when updating itinerary
+        self.country_dictionary = None
 
-    def newTour(self, formData):
-        self.country_id = formData[0]
-        self.date = formData[1]
-        self.travelers = formData[2]
-        self.travel_class = formData[3]
+    def newTour(self, form_data):
+        self.country_id = form_data[0]
+        self.date = form_data[1]
+        self.travelers = form_data[2]
+        self.travel_class = form_data[3]
         self.itineraryID = createItineraryID(self.country_id)
-        tempItinerary(itineraryID=self.itineraryID, user=self.currentUser, country=self.countryid,
-                              travelClass=self.travelclass, date=self.date, travelers=self.travelers, session=self.sessionID)
+        tempItinerary(itineraryID=self.itineraryID, user=self.user, country=self.country_id,
+                              travelClass=self.travel_class, date=self.date, travelers=self.travelers, session=self.session_id)
 
 
     def getTour(self):
@@ -76,25 +78,20 @@ class Tour:
         return self.templateData
 
     def compileItineraryData(self):
-
         itinerary = tempItinerary.objects.get(itineraryID=self.itineraryID)
         destinations_id = str(itinerary.destinations).split(",")
-        print "destinations is %s" % destinations_id
-        itinerary_destinations = []
+        self.itineraryData = []
         for item in destinations_id:
-            print "item is %s" % item
             if item != '0':
-                destinations_query_set = destination.objects.get(countryid=countryid, destinationid=item)
+                destinations_query_set = destination.objects.get(countryid=self.country_id, destinationid=item)
                 name = destinations_query_set.name
                 parsedDestinations = {'destinationID': item, 'name': str(name)}
-                itinerary_destinations.append(parsedDestinations)
+                self.itineraryData.append(parsedDestinations)
             else:
-                itinerary_destinations.append(item)
-
-        return itinerary_destinations
-
+                self.itineraryData.append(item)
 
         return self.itineraryData
+
 
     def updateItineraryDestinations(self, request):
         self.destination = request.GET['destinations']
@@ -116,8 +113,6 @@ class Tour:
             return "N"
 
 
-
-
     def deleteItinerary(self):
         return "I'm an incomplete method, please finish me :("
 
@@ -129,7 +124,7 @@ def itineraryUpdateDelete(request):
         if operation == "update":
 
             itinerary = Tour(session_id=None, user=None)
-            itineraryData = itinerary.updateItineraryDestination(request)
+            itineraryData = itinerary.updateItineraryDestinations(request)
 
             if itineraryData == 'Y':
                 # collect the itinerary display object and pass it to the view as json
@@ -141,19 +136,12 @@ def itineraryUpdateDelete(request):
                 return itineraryData
 
         elif operation == "get":
-            countryID = request.GET['countryID']
             itineraryID = request.GET['itineraryID']
-            itineraryGet = itineraryCRUD(itineraryID)
-            itineraryList = itineraryGet.retieve_destinations(countryID)
-            return itineraryList
-
-        if itinerary_list == 'no':
-            response = "NO"
-            return HttpResponse(response)
-        else:
-            print('here %s' % itinerary_list)
+            itinerary = Tour(itinerary_id=itineraryID)
+            itineraryData = itinerary.compileItineraryData()
+            view = itineraryAjaxView(itineraryData)
+            return view.load()
 
 
-            print(response)
 
 
