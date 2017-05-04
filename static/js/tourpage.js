@@ -29,8 +29,8 @@ function deleteDestination(itineraryID){
         var updatedDestinations = []
 
         // get destination itinerary list compile a destination list in that order
-        for(x=0;x<itineraryList.length;x++){
-	        var currentItineraryDestination = itineraryList[x];
+        for(x=0; x<itineraryData.length; x++){
+	        var currentItineraryDestination = itineraryData[x];
 	        var currentDestinationid = currentItineraryDestination.destinationID;
 
 	        if(currentDestinationid != destinationToDelete){
@@ -74,12 +74,12 @@ function getItineraryAjax(countryID, itineraryID) {
         },
         success: function (result) {
             console.log('success');
-            itineraryList = jQuery.parseJSON(result);
+            itineraryData = jQuery.parseJSON(result);
 
 
-            console.log(itineraryList);
+            console.log(itineraryData);
 
-            appendItinerary(itineraryList);
+            appendItinerary(itineraryData);
 
         },
 
@@ -143,9 +143,9 @@ function updateCurrentDestinationMarkup(destinationID, destinationName, destinat
 
 function appendItinerary(itineraryList){
     $('#itineraryContainer').empty();
-	console.log(itineraryList.length);
-	for(x=0;x<itineraryList.length;x++){
-		var currentDestination = itineraryList[x];
+	console.log(itineraryData.length);
+	for(x=0; x<itineraryData.length; x++){
+		var currentDestination = itineraryData[x];
 		var name = currentDestination.name;
 		var destinationID = currentDestination.destinationID;
 
@@ -195,12 +195,13 @@ function updateItineraryAjaxCall(destinationsToUpdate, itineraryID, operation){
 			},
 			success: function(result){
 
-				if(result == 'NO'){
-					alert('This destination is already added');
-				} else{
-					itineraryList = jQuery.parseJSON(result);
-					appendItinerary(itineraryList);
-				}
+                var itineraryData;
+                if (result !== 'N') {
+                    itineraryData = jQuery.parseJSON(result);
+                    appendItinerary(itineraryData);
+                } else {
+                    alert('This destination is already added');
+                }
 			},
 
 			error: function(error){
