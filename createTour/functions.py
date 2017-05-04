@@ -1,4 +1,4 @@
-def getFormData(request):
+def get_form_data(request):
     country_id = str(request.GET['country'])
     date = request.GET['date']
     travelers = request.GET['travelers']
@@ -59,7 +59,7 @@ class destinations_list_object(object):
             destinations_list.append(country_destination)
         return destinations_list
 
-def userCheck(request):
+def user_check(request):
     if request.user.is_authenticated():
         current_user = request.user
     else:
@@ -80,7 +80,7 @@ class itineraryCRUD(object):
         # setup the new itinerary
         saved = False
         while not saved:
-            itinerary_id = createItineraryID(country_id)
+            itinerary_id = create_itinerary_id(country_id)
             status = tempItinerarySetup(itinerary_id, current_user, date, travelers, travel_class, country_id,
                                         session_id)
             if not status:
@@ -116,7 +116,7 @@ class itineraryCRUD(object):
         # Get the current destitnation from the object
         currentDestinations = itinerary.destinations
         # Check to see if the destination is currently in the itinerary
-        status = destinationCheck(currentDestinations, newDestination)
+        status = destination_check(currentDestinations, newDestination)
 
         if status == 1:
             # If there is no duplicates
@@ -133,7 +133,7 @@ class itineraryCRUD(object):
         # code to delete the itinerary
         print('hello')
 
-def destinationCheck(currentDestinations, newDestination):
+def destination_check(currentDestinations, newDestination):
     currentDestinationsSplit = currentDestinations.split(',')
     for destination in currentDestinationsSplit:
         if destination == newDestination:
@@ -177,7 +177,7 @@ def itineraryUpdateDeleteController(request):
         return itineraryList
 
 
-def createItineraryID(countryid):
+def create_itinerary_id(countryid):
     # type: (object) -> object
     # This function creates the itineraryID
     timestamp = str(time.time())

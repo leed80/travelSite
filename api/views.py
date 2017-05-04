@@ -7,9 +7,9 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets, generics
 from rest_framework import permissions
 from serializers import countrySerializer, destinationSerializer, hotelSerializer, roomSerializer, tempItinerarySerializer, completeItinerarySerializer
-from createTour.models import country, destination
+from createTour.models import Country, Destination
 from hotelManagement.models import hotel, room
-from itinerary.models import tempItinerary, completeItinerary
+from itinerary.models import Temp_Itinerary, Complete_Itinerary
 import requests
 
 # View for all country objects
@@ -17,10 +17,10 @@ class countryViewSet(generics.ListAPIView):
 	serializer_class = countrySerializer
 
 	def get_queryset(self):
-		queryset = country.objects.all()
+		queryset = Country.objects.all()
 		countryid = self.request.query_params.get('countryid', None)
 		if countryid is not None:
-			queryset = country.objects.filter(countryid=countryid)
+			queryset = Country.objects.filter(countryid=countryid)
 			return queryset
 		else:
 			return queryset
@@ -30,7 +30,7 @@ class destinationViewSet(generics.ListAPIView):
 	serializer_class = destinationSerializer
 
 	def get_queryset(self):
-		queryset = destination.objects.all()
+		queryset = Destination.objects.all()
 		countryid = self.request.query_params.get('countryid', None)
 		name = self.request.query_params.get('name', None)
 		if name is not None:
@@ -72,10 +72,10 @@ class tempItineraryViewSet(generics.ListAPIView):
 	serializer_class = tempItinerarySerializer
 
 	def get_queryset(self):
-		queryset = tempItinerary.objects.all()
+		queryset = Temp_Itinerary.objects.all()
 		itineraryID = self.request.query_params.get('itineraryID', None)
 		if itineraryID is not None:
-			queryset = tempItinerary.objects.filter(itineraryID = itineraryID)
+			queryset = Temp_Itinerary.objects.filter(itineraryID = itineraryID)
 			return queryset
 		else:
 			return queryset
@@ -83,13 +83,13 @@ class tempItineraryViewSet(generics.ListAPIView):
 class updateTempItinerary(generics.UpdateAPIView):
 
 	# update the database (the UpdateAPIView will update with the info passed in the url) 
-	queryset = tempItinerary.objects.all()
+	queryset = Temp_Itinerary.objects.all()
 	serializer_class = tempItinerarySerializer
 	# set the permission so anyone can put
 	permission_classes = (permissions.AllowAny,)
 
 class deleteTempItinerary(generics.DestroyAPIView):
-	queryset = tempItinerary.objects.all()
+	queryset = Temp_Itinerary.objects.all()
 	serializer_class = tempItinerarySerializer
 	permission_classes = (permissions.AllowAny,)
 
@@ -124,10 +124,10 @@ class completeItineraryViewSet(generics.ListAPIView):
 	serializer_class = completeItinerarySerializer
 
 	def get_queryset(self):
-		queryset = completeItinerary.objects.all()
+		queryset = Complete_Itinerary.objects.all()
 		itineraryID = self.request.query_params.get('itineraryID', None)
 		if itineraryID is not None:
-			queryset = completeItinerary.objects.filter(itineraryID = itineraryID)
+			queryset = Complete_Itinerary.objects.filter(itineraryID = itineraryID)
 			return queryset
 		else:
 			return queryset
