@@ -1,6 +1,6 @@
 from createTour.functions import destinationCheck, destinations_render_data, country_render_data, createItineraryID, \
-    checkSessionId
-from createTour.views import itineraryPageView, homepage
+    checkSessionId, getFormData, userCheck
+from createTour.views import itineraryPageView, homepage, itineraryAjaxView
 from createTour.views import itineraryPageView, homepage
 from itinerary.models import tempItinerary
 
@@ -77,6 +77,22 @@ class Tour:
 
     def compileItineraryData(self):
 
+        itinerary = tempItinerary.objects.get(itineraryID=self.itineraryID)
+        destinations_id = str(itinerary.destinations).split(",")
+        print "destinations is %s" % destinations_id
+        itinerary_destinations = []
+        for item in destinations_id:
+            print "item is %s" % item
+            if item != '0':
+                destinations_query_set = destination.objects.get(countryid=countryid, destinationid=item)
+                name = destinations_query_set.name
+                parsedDestinations = {'destinationID': item, 'name': str(name)}
+                itinerary_destinations.append(parsedDestinations)
+            else:
+                itinerary_destinations.append(item)
+
+        return itinerary_destinations
+
 
         return self.itineraryData
 
@@ -88,11 +104,11 @@ class Tour:
         # Get the current destination from the object
         currentDestinations = itinerary.destinations
         # Check to see if the destination is currently in the itinerary
-        status = destinationCheck(currentDestinations, newDestination)
+        status = destinationCheck(currentDestinations, self.destination)
 
         if status == 1:
             # If there is no duplicates
-            newDestinations = '%s,%s' % (currentDestinations, newDestination)
+            newDestinations = '%s,%s' % (currentDestinations, self.destination)
             itinerary.destinations = newDestinations
             itinerary.save()
             return "Y"
@@ -117,9 +133,9 @@ def itineraryUpdateDelete(request):
 
             if itineraryData == 'Y':
                 # collect the itinerary display object and pass it to the view as json
-
-
-
+                itineraryData = itinerary.compileItineraryData()
+                view = itineraryAjaxView(itineraryData)
+                return view.load()
 
             else:
                 return itineraryData
@@ -137,7 +153,7 @@ def itineraryUpdateDelete(request):
         else:
             print('here %s' % itinerary_list)
 
-            response = json.dumps(itinerary_list)
+
             print(response)
 
 
