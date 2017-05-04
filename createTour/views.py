@@ -38,10 +38,12 @@ def hotels(request):
     return render_to_response('tours/hotel.html', args, RequestContext(request))
 
 class itineraryAjaxView:
-    def __init__(self, response):
-        self.response = response
+    def __init__(self, itineraryData):
+        self.itineraryData = itineraryData
+        self.response = None
 
     def load(self):
+        self.response = json.dumps(self.itineraryData)
         return HttpResponse(self.response)
 
 
