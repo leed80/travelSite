@@ -1,17 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from createTour.models import country, destination
-from itinerary.models import tempItinerary, completeItinerary
+from createTour.models import Country, Destination
+from itinerary.models import Temp_Itinerary, Complete_Itinerary
 from hotelManagement.models import hotel, room
 
 class countrySerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
-		model = country
+		model = Country
 		fields = ('countryid', 'name', 'description', 'lat', 'lng', 'zoom')
 
 class destinationSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
-		model = destination
+		model = Destination
 		fields = ('destinationid', 'name', 'countryid', 'description', 'lat', 'lng')
 
 class hotelSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,12 +26,12 @@ class roomSerializer(serializers.HyperlinkedModelSerializer):
 
 class tempItinerarySerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
-		model = tempItinerary
+		model = Temp_Itinerary
 		fields = ('pk','travelers', 'date', 'travelClass', 'hotels', 'destinations', 'country', 'itineraryID', 'user','time', 'session')
 
 class completeItinerarySerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
-		model = completeItinerary
+		model = Complete_Itinerary
 		fields = ('travelers', 'date', 'travelClass', 'hotels', 'destinations', 'country', 'itineraryID', 'user')
 
 

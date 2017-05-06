@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import country, destination
+from models import Country, Destination
 
-admin.site.register(country)
-admin.site.register(destination)
+admin.site.register(Country)
+admin.site.register(Destination)
