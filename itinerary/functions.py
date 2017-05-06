@@ -1,5 +1,7 @@
-from createTour.models import Country, Destination
-from itinerary.models import Temp_Itinerary
+import hashlib
+import time
+
+from itinerary.models import Temp_Itinerary, Country, Destination
 
 
 def get_form_data(request):
@@ -12,17 +14,27 @@ def get_form_data(request):
 
 
 def country_render_data(country_id):
-    country_data = Country.objects.get(countryid=country_id)
-    country_dictionary = {"name": str(country_data.name), "countryID": country_data.countryid,
-                          "description": str(country_data.description), "lat": country_data.lat,
-                          "lng": country_data.lng, "zoom": country_data.zoom}
+    country_data = Country.objects.get(country_id=country_id)
+    country_dictionary = dict(name=str(country_data.name), country_id=country_data.country_id,
+                              description=str(country_data.description), lat=country_data.lat, lng=country_data.lng,
+                              zoom=country_data.zoom)
     return country_dictionary
 
 
 def destinations_render_data(country_id):
-    destinations = destinations_list(country_id)
-    destinations_data = destinations.destination_data
+    destinations_data = destination_data(country_id)
     return destinations_data
+
+
+def destination_data(country_id):
+    destinations = Destination.objects.filter(country_id=country_id)
+    destinations_list = []
+    for item in destinations:
+        country_destination = dict(destination_id=item.destination_id, name=str(item.name),
+                                   description=str(item.description), lat=item.lat, lng=item.lng)
+
+        destinations_list.append(country_destination)
+    return destinations_list
 
 
 def check_session_id(request):
@@ -39,7 +51,6 @@ def check_session_id(request):
         return ["Yes", session_id]
     except Temp_Itinerary.DoesNotExist:
         return ["No", session_id]
-
 
 
 def user_check(request):
@@ -60,8 +71,6 @@ def destination_check(current_destinations, new_destination):
 
 
 def create_itinerary_id(country_id):
-    # type: (object) -> object
-    # This function creates the itinerary_id
     timestamp = str(time.time())
     itinerary_id = hashlib.md5(timestamp + country_id).hexdigest()
     itinerary_id = itinerary_id[:8]

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from createTour.models import Country, Destination
-from itinerary.models import Temp_Itinerary, Complete_Itinerary
+from itinerary.models import Temp_Itinerary, Complete_Itinerary, Country, Destination
 from hotelManagement.models import hotel, room
 
 class countrySerializer(serializers.HyperlinkedModelSerializer):

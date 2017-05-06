@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 import createTour.views
+import itinerary.views
 
 urlpatterns = [
-    url(r'^$', createTour.views.index),
+    url(r'^$', itinerary.views.index),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^userProfile/', include('userProfile.urls')),
     url(r'^api/', include('api.urls')),
-    url(r'^createTour/', include('createTour.urls')),
     url(r'^itinerary/', include('itinerary.urls')),
     url(r'^hotel_management/', include('hotelManagement.urls')),
     

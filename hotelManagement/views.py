@@ -2,8 +2,7 @@ from django.shortcuts import render, render_to_response, get_object_or_404, redi
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import auth
 from django.template import RequestContext
-from createTour.models import Country
-from itinerary.models import Temp_Itinerary
+from itinerary.models import Temp_Itinerary, Country
 import time
 import random
 import hashlib
