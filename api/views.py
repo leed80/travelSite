@@ -7,9 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets, generics
 from rest_framework import permissions
 from serializers import countrySerializer, destinationSerializer, hotelSerializer, roomSerializer, tempItinerarySerializer, completeItinerarySerializer
-from createTour.models import Country, Destination
 from hotelManagement.models import hotel, room
-from itinerary.models import Temp_Itinerary, Complete_Itinerary
+from itinerary.models import Temp_Itinerary, Complete_Itinerary, Country, Destination
 import requests
 
 # View for all country objects

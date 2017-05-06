@@ -57,7 +57,7 @@ function get_itinerary_ajax(country_id, itinerary_id) {
 
     // Ajax call to get itinerary
     $.ajax({
-        url: '/createTour/itinerary_update_delete/',
+        url: '/itinerary/itinerary_update_delete/',
         type: 'GET',
         data: {
 
@@ -179,7 +179,7 @@ function update_itinerary_ajax(destinations_to_update, itinerary_id, operation){
 
 	// Ajax call to insert new destination data
 	$.ajax({
-		url: '/createTour/itinerary_update_delete/',
+		url: '/itinerary/itinerary_update_delete/',
 		type: 'GET',
 		data: {	
 				

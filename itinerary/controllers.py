@@ -1,27 +1,25 @@
-from createTour.functions import destination_check, destinations_render_data, country_render_data, create_itinerary_id, \
+from itinerary.views import homepage, itinerary_page_view, itinerary_ajax_view
+from itinerary.functions import destination_check, destinations_render_data, country_render_data, create_itinerary_id, \
     check_session_id, get_form_data, user_check
-from createTour.models import Destination
-from createTour.views import itinerary_ajax_view
-from createTour.views import itinerary_page_view, homepage
-from itinerary.models import Temp_Itinerary
+from itinerary.models import Temp_Itinerary, Destination
 
 
-def tour_load_controller(request):
+def itinerary_load_controller(request):
     # Tour destination select page view
     if request.method == 'GET':
         itinerary_already_generated = check_session_id(request)
         session_id = itinerary_already_generated[1]
         form_data = get_form_data(request)
         user = user_check(request)
-        itinerary = Tour(session_id, user)
+        itinerary = Itinerary(session_id, user)
 
         if itinerary_already_generated is "No":
-            itinerary.new_tour(form_data)
+            itinerary.new_itinerary(form_data)
         else:
             # get current itinerary using sessionid
-            itinerary.get_tour()
+            itinerary.get_itinerary()
 
-        template_data = itinerary.compile_tour_data()
+        template_data = itinerary.compile_page_build_data()
 
         view = itinerary_page_view(template_data, request)
         return view.load()
@@ -32,7 +30,7 @@ def tour_load_controller(request):
         return view.load()
 
 
-class Tour(object):
+class Itinerary(object):
     def __init__(self, session_id=None, user=None, itinerary_id=None):
         self.country_id = None
         self.date = None
@@ -41,14 +39,14 @@ class Tour(object):
         self.user = user
         self.session_id = session_id
         self.itinerary_id = itinerary_id
-        self.destinations_list = None
-        self.country_dictionary = None
+        self.destinations_data = None
+        self.country_data = None
         self.template_data = None
         self.itinerary_data = None
         self.destination = None  # for use when updating itinerary
-        self.country_dictionary = None
+        self.country_data = None
 
-    def new_tour(self, form_data):
+    def new_itinerary(self, form_data):
         self.country_id = form_data[0]
         self.date = form_data[1]
         self.travelers = form_data[2]
@@ -57,7 +55,7 @@ class Tour(object):
         Temp_Itinerary(itinerary_id=self.itinerary_id, user=self.user, country=self.country_id,
                        travel_class=self.travel_class, date=self.date, travelers=self.travelers, session=self.session_id)
 
-    def get_tour(self):
+    def get_itinerary(self):
         itinerary = Temp_Itinerary.objects.get(session=self.session_id)
         self.country_id = itinerary.country
         self.date = itinerary.date
@@ -65,24 +63,25 @@ class Tour(object):
         self.travel_class = itinerary.travel_class
         self.itinerary_id = itinerary.itinerary_id
 
-    def compile_tour_data(self):
-        self.destinations_list = destinations_render_data(self.country_id)
-        self.country_dictionary = country_render_data(self.country_id)
+    def compile_page_build_data(self):
+        self.destinations_data = destinations_render_data(self.country_id)
+        self.country_data = country_render_data(self.country_id)
 
-        self.template_data = {"country": self.country_id, "date": self.date, "travelers": self.travelers,
-                              "class": self.travel_class,
-                              "destinations_list": self.destinations_list, "itinerary_id": self.itinerary_id,
-                              "country_dictionary": self.country_dictionary}
+        self.template_data = dict(country=self.country_id, date=self.date, travelers=self.travelers,
+                                  travel_class=self.travel_class, destinations_data=self.destinations_data,
+                                  itinerary_id=self.itinerary_id, country_data=self.country_data)
 
         return self.template_data
 
     def compile_itinerary_data(self):
         itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
-        destinations_id = str(itinerary.destinations).split(",")
+        destinations_id = itinerary.destinations.split(",")
         self.itinerary_data = []
         for item in destinations_id:
             if item != '0':
+                print("country %s destination %s" % self.country_id, item)
                 destinations_query_set = Destination.objects.get(country_id=self.country_id, destination_id=item)
+                print(destinations_query_set)
                 name = destinations_query_set.name
                 parsedDestinations = {'destinationID': item, 'name': str(name)}
                 self.itinerary_data.append(parsedDestinations)
@@ -120,7 +119,7 @@ def itinerary_update_delete(request):
         operation = request.GET['operation']
         if operation == "update":
 
-            itinerary = Tour(session_id=None, user=None)
+            itinerary = Itinerary(session_id=None, user=None)
             itinerary_data = itinerary.update_itinerary_destinations(request)
 
             if itinerary_data == 'Y':
@@ -134,7 +133,8 @@ def itinerary_update_delete(request):
 
         elif operation == "get":
             itinerary_id = request.GET['itinerary_id']
-            itinerary = Tour(itinerary_id=itinerary_id)
+            itinerary = Itinerary(itinerary_id=itinerary_id)
             itinerary_data = itinerary.compile_itinerary_data()
+            print(itinerary_data)
             view = itinerary_ajax_view(itinerary_data)
             return view.load()

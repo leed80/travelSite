@@ -1,40 +1,8 @@
 from __future__ import print_function
 
-from django.core import serializers
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-
 import json
 
-
-def index(request):
-    # Homepage view
-    return render_to_response('homepage/home.html', RequestContext(request))
-
-
-class homepage:
-    def __init__(self, request):
-        self.request = request
-
-    def load(self):
-        return render_to_response('homepage/home.html', RequestContext(self.request))
-
-
-class itinerary_page_view:
-    def __init__(self, template_data, request):
-        self.template_data = template_data
-        self.request = request
-
-    def load(self):
-        return render_to_response('tours/tour.html', self.template_data, RequestContext(self.request))
-
-
-def hotels(request):
-    # Hotel select page view
-    if request.method == 'GET':
-        args = mainHotelController(request)
-    return render_to_response('tours/hotel.html', args, RequestContext(request))
+from django.http import HttpResponse
 
 
 class itinerary_ajax_view:
