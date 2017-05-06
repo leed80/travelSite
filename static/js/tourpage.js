@@ -130,7 +130,8 @@ function update_current_destination_markup(destination_id, destination_name, des
 
 	var destination_title_id = 'titleDescription' + destination_id;
 	$('.titleDescription').attr('id', destination_title_id);
-	$('.titleDescription').text(destination_name);
+	/*noinspection JSJQueryEfficiency*/
+    $('.titleDescription').text(destination_name);
 	$('.description').text(destination_description);
 
 }

@@ -1,5 +1,5 @@
 from createTour.functions import destination_check, destinations_render_data, country_render_data, create_itinerary_id, \
-    checkSessionId, get_form_data, user_check
+    check_session_id, get_form_data, user_check
 from createTour.models import Destination
 from createTour.views import itinerary_ajax_view
 from createTour.views import itinerary_page_view, homepage
@@ -9,7 +9,7 @@ from itinerary.models import Temp_Itinerary
 def tour_load_controller(request):
     # Tour destination select page view
     if request.method == 'GET':
-        itinerary_already_generated = checkSessionId(request)
+        itinerary_already_generated = check_session_id(request)
         session_id = itinerary_already_generated[1]
         form_data = get_form_data(request)
         user = user_check(request)
@@ -32,7 +32,7 @@ def tour_load_controller(request):
         return view.load()
 
 
-class Tour:
+class Tour(object):
     def __init__(self, session_id=None, user=None, itinerary_id=None):
         self.country_id = None
         self.date = None
