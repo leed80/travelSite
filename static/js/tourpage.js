@@ -5,7 +5,7 @@ $(document).ready(function() {
     initMap(country_data);
     get_itinerary_ajax(country_id, itinerary_id);
 
-	destination_click(destinations_list, itinerary_id);
+	destination_click(destinations_data, itinerary_id);
 	delete_destination(itinerary_id);
 	
 
@@ -73,7 +73,7 @@ function get_itinerary_ajax(country_id, itinerary_id) {
 
             console.log(itinerary_data);
 
-            append_itinerary();
+            append_itinerary(itinerary_data);
 
         },
 
@@ -97,22 +97,22 @@ function add_destination_itinerary(destination_id, itinerary_id){
 }
 
 
-function destination_click(destination_dictionary, itinerary_id){
+function destination_click(destinations_data, itinerary_id){
 	gmarkers = [];
 	$('.destinationTitle').on('click', function(){
 		removeMarkers(gmarkers);
 	
 		// get the id of the clicked element to extract destination name
 		var clicked_title = $(this).text();
-		// use the name to get the description from the destination_dictionary
-		for(i=0;i<destination_dictionary.length;i++){
-			var destination_name = destination_dictionary[i].name;
+		// use the name to get the description from the destinations_data
+		for(i=0;i<destinations_data.length;i++){
+			var destination_name = destinations_data[i].name;
 
 			if(destination_name === clicked_title){
-				var destination_description = destination_dictionary[i].description;
-				var destination_id = destination_dictionary[i].destination_id;
-				var lat = destination_dictionary[i].lat;
-				var lng = destination_dictionary[i].lng;
+				var destination_description = destinations_data[i].description;
+				var destination_id = destinations_data[i].destination_id;
+				var lat = destinations_data[i].lat;
+				var lng = destinations_data[i].lng;
 				break;
 			}
 		}
@@ -153,11 +153,11 @@ function append_itinerary(itinerary_data) {
 
 }
 
-function get_country_data(country_dictionary){
-	var country_id = country_dictionary.country_id;
-	var lat = country_dictionary.lat;
-	var lng = country_dictionary.lng;
-	var zoom = country_dictionary.zoom
+function get_country_data(country_data){
+	var country_id = country_data.country_id;
+	var lat = country_data.lat;
+	var lng = country_data.lng;
+	var zoom = country_data.zoom
 
 	var country_data = [Number(country_id), Number(lat), Number(lng), Number(zoom)];
 	return country_data;

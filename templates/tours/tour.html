@@ -36,12 +36,12 @@ var country_id = {{ country }};
 
 <div id="tourbody">
 
-	<h2 id="titleCountry">{{ countryDictionary.name }}</h2>
+	<h2 id="titleCountry">{{ country_data.name }}</h2>
 
 
-	<p id="itineraryID" >{{ itineraryID }}</p>
+	<p id="itineraryID" >{{ itinerary_id }}</p>
 	<form id="complete" action="/createTour/hotels/" method="GET">
-		<input type="text" value="{{ itineraryID }}" name="itineraryID">
+		<input type="text" value="{{ itinerary_id }}" name="itinerary_id">
 		<input type="submit" value="Itinerary Complete">
 
 	</form>
@@ -51,9 +51,9 @@ var country_id = {{ country }};
 	<div id="destinationBox">
 
 		<div id="destinationSelect">
-			{% for destination in destinationsList %}
+			{% for destination in destinations_data %}
 
-					<h3 id="destinationTitle{{ destination.destinationid }}" class="destinationTitle">{{destination.name}}</h3>
+					<h3 id="destinationTitle{{ destination.destination_id }}" class="destinationTitle">{{destination.name}}</h3>
 
 
 			{% endfor %}
@@ -76,9 +76,9 @@ var country_id = {{ country }};
 		<div id="description">
 
 
-			<h3 id="titleDescriptionCountry" class="titleDescription">{{countryDictionary.name}} Preview</h3>
+			<h3 id="titleDescriptionCountry" class="titleDescription">{{country_data.name}} Preview</h3>
 
-			<p id="descriptionCountry" class="description">{{ countryDictionary.description }}</p>
+			<p id="descriptionCountry" class="description">{{ country_data.description }}</p>
 			
 		</div>
 

@@ -75,26 +75,25 @@ class Itinerary(object):
 
     def compile_itinerary_data(self):
         itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
-        destinations_id = itinerary.destinations.split(",")
+        destinations = str(itinerary.destinations)
+        self.country_id = itinerary.country
+        destinations_id = destinations.split(",")
         self.itinerary_data = []
         for item in destinations_id:
             if item != '0':
-                print("country %s destination %s" % self.country_id, item)
-                destinations_query_set = Destination.objects.get(country_id=self.country_id, destination_id=item)
-                print(destinations_query_set)
-                name = destinations_query_set.name
+                destinations_query = Destination.objects.get(country_id=self.country_id, destination_id=int(item))
+                name = destinations_query.name
                 parsedDestinations = {'destinationID': item, 'name': str(name)}
                 self.itinerary_data.append(parsedDestinations)
-            else:
-                self.itinerary_data.append(item)
+
 
         return self.itinerary_data
 
     def update_itinerary_destinations(self, request):
         self.destination = request.GET['destinations']
-        self.itinerary_id = request.GET['itinerary_ID']
+        self.itinerary_id = request.GET['itinerary_id']
         # Get the itinerary object
-        itinerary = Temp_Itinerary.objects.get(itineraryID=self.itinerary_id)
+        itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
         # Get the current destination from the object
         current_destinations = itinerary.destinations
         # Check to see if the destination is currently in the itinerary
