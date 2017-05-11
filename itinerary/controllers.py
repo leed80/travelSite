@@ -128,6 +128,12 @@ class Itinerary(object):
 
 
     def delete_itinerary(self):
+        itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
+        itinerary.delete()
+        # Create a view to handle handle the deleted itinerary
+
+
+
         return "I'm an incomplete method, please finish me :("
 
 
@@ -163,5 +169,15 @@ def itinerary_update_delete(request):
             itinerary_data = itinerary.compile_itinerary_data()
             view = itinerary_ajax_view(itinerary_data)
             return view.load()
+
+        elif operation == "delete":
+            itinerary_id = request.GET['itinerary_id']
+            itinerary = Itinerary()
+            itinerary.itinerary_id = itinerary_id
+            itinerary.delete_itinerary()
+
+
+
+
 
 

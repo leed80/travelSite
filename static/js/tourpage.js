@@ -17,6 +17,17 @@ $(document).ready(function() {
 // delete itinerary destination
 // delete temp itinerary
 
+function delete_itinerary(itinerary_id){
+	$('#delete').click(function(){
+		var operation = "delete";
+		update_itinerary_ajax("None", itinerary_id, operation);
+
+
+	});
+
+}
+
+
 function delete_destination(itinerary_id){
     //language=JQuery-CSS
     $('#itineraryContainer').on('click', '.delete', function(){
