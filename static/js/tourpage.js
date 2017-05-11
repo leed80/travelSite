@@ -23,32 +23,38 @@ function delete_destination(itinerary_id){
         var destination_to_delete_full = $(this).attr('id');
         var destination_to_delete;
         destination_to_delete = destination_to_delete_full.replace('delete', '');
-        var updated_destinations = []
-
-        // get destination itinerary list compile a destination list in that order
-        for(x=0; x<itinerary_data.length; x++){
-	        var current_itinerary_destination = itinerary_data[x];
-	        var current_destination_id = current_itinerary_destination.destination_id;
-
-	        if(current_destination_id !== destination_to_delete){
-	            updated_destinations.push(current_destination_id);
-
-	        }
-        }
+        var operation = "remove";
+        update_itinerary_ajax(destination_to_delete, itinerary_id, operation);
 
 
-        // pass new list to the ajax function with itinerary_id and the operation as update
 
-        var destinations_to_update = updated_destinations.toString();
 
-        var operation = 'update';
-
-        update_itinerary_ajax(destinations_to_update, itinerary_id, operation);
+        // // get destination itinerary list compile a destination list in that order
+        // for(x=0; x<itinerary_data.length; x++){
+	     //    var current_itinerary_destination = itinerary_data[x];
+	     //    var current_destination_id = current_itinerary_destination.destination_id;
+        //
+	     //    if(current_destination_id !== destination_to_delete){
+	     //        updated_destinations.push(current_destination_id);
+        //
+	     //    }
+        // }
+        //
+        //
+        // // pass new list to the ajax function with itinerary_id and the operation as update
+        //
+        // var destinations_to_update = updated_destinations.toString();
+        //
+        // var operation = 'update';
+        //
+        // update_itinerary_ajax(destinations_to_update, itinerary_id, operation);
 
 
 
     });
 }
+
+
 
 function get_itinerary_ajax(country_id, itinerary_id) {
 
@@ -176,7 +182,7 @@ function csrfSetup(csrftoken){
 	});
 }
 
-function update_itinerary_ajax(destinations_to_update, itinerary_id, operation){
+function update_itinerary_ajax(destination_to_action, itinerary_id, operation){
 	
 
 	// Ajax call to insert new destination data
@@ -185,7 +191,7 @@ function update_itinerary_ajax(destinations_to_update, itinerary_id, operation){
 		type: 'GET',
 		data: {	
 				
-				"destinations": destinations_to_update,
+				"destinations": destination_to_action,
 				"itinerary_id": itinerary_id,
 				"operation": operation,
 				

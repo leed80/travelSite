@@ -85,7 +85,7 @@ class Itinerary(object):
             if item != '0':
                 destinations_query = Destination.objects.get(country_id=self.country_id, destination_id=int(item))
                 name = destinations_query.name
-                parsedDestinations = {'destinationID': item, 'name': str(name)}
+                parsedDestinations = {'destination_id': item, 'name': str(name)}
                 self.itinerary_data.append(parsedDestinations)
 
 
@@ -110,6 +110,23 @@ class Itinerary(object):
         else:
             return "N"
 
+    def remove_itinerary_destination(self, request):
+        self.destination = request.GET['destinations']
+        self.itinerary_id = request.GET['itinerary_id']
+        # Get the itinerary object
+        itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
+        current_destinations = itinerary.destinations
+        destinations_id = current_destinations.split(",")
+        new_destinations = []
+        for item in destinations_id:
+            if item != self.destination:
+                new_destinations.append(item)
+
+        itinerary.destinations = ",".join(str(x) for x in new_destinations)
+        itinerary.save()
+
+
+
     def delete_itinerary(self):
         return "I'm an incomplete method, please finish me :("
 
@@ -120,7 +137,7 @@ def itinerary_update_delete(request):
         operation = request.GET['operation']
         if operation == "update":
 
-            itinerary = Itinerary(session_id=None, user=None)
+            itinerary = Itinerary()
             itinerary_data = itinerary.update_itinerary_destinations(request)
 
             if itinerary_data == 'Y':
@@ -139,3 +156,12 @@ def itinerary_update_delete(request):
             print(itinerary_data)
             view = itinerary_ajax_view(itinerary_data)
             return view.load()
+
+        elif operation == "remove":
+            itinerary = Itinerary()
+            itinerary.remove_itinerary_destination(request)
+            itinerary_data = itinerary.compile_itinerary_data()
+            view = itinerary_ajax_view(itinerary_data)
+            return view.load()
+
+
