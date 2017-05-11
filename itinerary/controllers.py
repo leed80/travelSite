@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+
 from itinerary.views import homepage, itinerary_page_view, itinerary_ajax_view
 from itinerary.functions import destination_check, destinations_render_data, country_render_data, create_itinerary_id, \
     check_session_id, get_form_data, user_check
@@ -128,7 +130,7 @@ def itinerary_update_delete(request):
                 return view.load()
 
             else:
-                return itinerary_data
+                return HttpResponse(itinerary_data)
 
         elif operation == "get":
             itinerary_id = request.GET['itinerary_id']

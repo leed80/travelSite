@@ -86,11 +86,13 @@ function get_itinerary_ajax(country_id, itinerary_id) {
 
 function add_destination_itinerary(destination_id, itinerary_id){
 
-	$('.addItinerary').on('click', function(){
+	$('.addItinerary').unbind('click').on('click', function(){
 
         var operation = 'update';
 
 		update_itinerary_ajax(destination_id, itinerary_id, operation);
+
+		return;
 
 
 	});
@@ -190,11 +192,12 @@ function update_itinerary_ajax(destinations_to_update, itinerary_id, operation){
 			},
 			success: function(result){
 
-                var itineraryData;
+                var itinerary_data;
                 if (result !== 'N') {
                     itinerary_data = jQuery.parseJSON(result);
                     append_itinerary(itinerary_data);
                 } else {
+
                     alert('This destination is already added');
                 }
 			},
