@@ -18,6 +18,13 @@ class homepage:
     def load(self):
         return render_to_response('homepage/home.html', RequestContext(self.request))
 
+class create_itinerary(object):
+    def __init__(self, request):
+        self.request = request
+
+    def load(self):
+        return render_to_response('tours/createItinerary', RequestContext(self.request))
+
 
 class itinerary_page_view:
     def __init__(self, template_data, request):
@@ -39,7 +46,7 @@ import json
 from django.http import HttpResponse
 
 
-class itinerary_ajax_view:
+class itinerary_ajax_view(object):
     def __init__(self, itinerary_data):
         self.itinerary_data = itinerary_data
         self.response = None
@@ -47,3 +54,7 @@ class itinerary_ajax_view:
     def load(self):
         self.response = json.dumps(self.itinerary_data)
         return HttpResponse(self.response)
+
+def itinerary_deleted(request):
+
+    return render_to_response('tours/itinerary_deleted.html', RequestContext(request))

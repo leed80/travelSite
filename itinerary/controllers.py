@@ -1,45 +1,55 @@
 from django.http import HttpResponse
 
-from itinerary.views import homepage, itinerary_page_view, itinerary_ajax_view
+from itinerary.views import homepage, itinerary_page_view, itinerary_ajax_view, create_itinerary
 from itinerary.functions import destination_check, destinations_render_data, country_render_data, create_itinerary_id, \
     check_session_id, get_form_data, user_check
 from itinerary.models import Temp_Itinerary, Destination
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
+def itinerary_create_form(request):
+    view = create_itinerary(request)
+    return view.load()
+
+
+@login_required
 def itinerary_load_controller(request):
     # Tour destination select page view
     if request.method == 'GET':
-        itinerary_already_generated = check_session_id(request)
-        session_id = itinerary_already_generated[1]
-        form_data = get_form_data(request)
+        itinerary_id = request.GET['itinerary_id']
         user = user_check(request)
-        itinerary = Itinerary(session_id, user)
-
-        if itinerary_already_generated is "No":
-            itinerary.new_itinerary(form_data)
-        else:
-            # get current itinerary using sessionid
-            itinerary.get_itinerary()
-
+        itinerary = Itinerary(user=user, itinerary_id=itinerary_id)
+        itinerary.get_itinerary()
         template_data = itinerary.compile_page_build_data()
 
         view = itinerary_page_view(template_data, request)
         return view.load()
 
-    else:
-        # go back to the homepage
-        view = homepage(request)
+        # else:
+        #     # go back to the homepage
+        #     view = homepage(request)
+        #     return view.load()
+
+
+def new_itinerary_controller(request):
+    if request.method == 'GET':
+        form_data = get_form_data(request)
+        user = user_check(request)
+        itinerary = Itinerary(user)
+        itinerary.new_itinerary(form_data)
+        template_data = itinerary.compile_page_build_data()
+        view = itinerary_page_view(template_data, request)
         return view.load()
 
 
 class Itinerary(object):
-    def __init__(self, session_id=None, user=None, itinerary_id=None):
+    def __init__(self, user=None, itinerary_id=None):
         self.country_id = None
         self.date = None
         self.travelers = None
         self.travel_class = None
         self.user = user
-        self.session_id = session_id
         self.itinerary_id = itinerary_id
         self.destinations_data = None
         self.country_data = None
@@ -54,16 +64,16 @@ class Itinerary(object):
         self.travelers = form_data[2]
         self.travel_class = form_data[3]
         self.itinerary_id = create_itinerary_id(self.country_id)
-        Temp_Itinerary(itinerary_id=self.itinerary_id, user=self.user, country=self.country_id,
-                       travel_class=self.travel_class, date=self.date, travelers=self.travelers, session=self.session_id)
+        new_created_itinerary = Temp_Itinerary(itinerary_id=self.itinerary_id, user=self.user, country=self.country_id,
+                                               travel_class=self.travel_class, date=self.date, travelers=self.travelers)
+        new_created_itinerary.save()
 
     def get_itinerary(self):
-        itinerary = Temp_Itinerary.objects.get(session=self.session_id)
+        itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
         self.country_id = itinerary.country
         self.date = itinerary.date
         self.travelers = itinerary.travelers
         self.travel_class = itinerary.travel_class
-        self.itinerary_id = itinerary.itinerary_id
 
     def compile_page_build_data(self):
         self.destinations_data = destinations_render_data(self.country_id)
@@ -87,7 +97,6 @@ class Itinerary(object):
                 name = destinations_query.name
                 parsedDestinations = {'destination_id': item, 'name': str(name)}
                 self.itinerary_data.append(parsedDestinations)
-
 
         return self.itinerary_data
 
@@ -125,12 +134,12 @@ class Itinerary(object):
         itinerary.destinations = ",".join(str(x) for x in new_destinations)
         itinerary.save()
 
+    def delete_itinerary(self, request):
+        itinerary = Temp_Itinerary.objects.get(itinerary_id=self.itinerary_id)
+        itinerary.delete()
 
 
-    def delete_itinerary(self):
-        return "I'm an incomplete method, please finish me :("
-
-
+@login_required
 def itinerary_update_delete(request):
     # View to update and delete itinerary
     if request.method == "GET":
@@ -164,4 +173,12 @@ def itinerary_update_delete(request):
             view = itinerary_ajax_view(itinerary_data)
             return view.load()
 
+        elif operation == "delete":
+            itinerary_id = request.GET['itinerary_id']
+            itinerary = Itinerary()
+            itinerary.itinerary_id = itinerary_id
+            itinerary.delete_itinerary(request)
+            return HttpResponse('deleted')
 
+
+            # rewrite so user has to be logged in to create an itinerary and remove session checking

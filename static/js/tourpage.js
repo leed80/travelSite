@@ -7,6 +7,7 @@ $(document).ready(function() {
 
 	destination_click(destinations_data, itinerary_id);
 	delete_destination(itinerary_id);
+	delete_itinerary(itinerary_id);
 	
 
 });
@@ -16,6 +17,17 @@ $(document).ready(function() {
 // **** TO DO This File ******
 // delete itinerary destination
 // delete temp itinerary
+
+function delete_itinerary(itinerary_id){
+	$('#delete').click(function(){
+		var operation = "delete";
+		update_itinerary_ajax("None", itinerary_id, operation);
+
+
+	});
+
+}
+
 
 function delete_destination(itinerary_id){
     //language=JQuery-CSS
@@ -74,6 +86,7 @@ function get_itinerary_ajax(country_id, itinerary_id) {
         },
         success: function (result) {
             console.log('success');
+
             itinerary_data = jQuery.parseJSON(result);
 
 
@@ -199,12 +212,16 @@ function update_itinerary_ajax(destination_to_action, itinerary_id, operation){
 			success: function(result){
 
                 var itinerary_data;
-                if (result !== 'N') {
-                    itinerary_data = jQuery.parseJSON(result);
-                    append_itinerary(itinerary_data);
-                } else {
+                if (result == 'N') {
+                	alert('This destination is already added');
 
-                    alert('This destination is already added');
+                } else if(result == 'deleted'){
+                	window.location.href = "http://127.0.0.1:8000/itinerary/itinerary_deleted/"
+
+				} else {
+					itinerary_data = jQuery.parseJSON(result);
+                    append_itinerary(itinerary_data);
+
                 }
 			},
 

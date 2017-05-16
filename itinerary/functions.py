@@ -56,10 +56,10 @@ def check_session_id(request):
 def user_check(request):
     if request.user.is_authenticated():
         current_user = request.user
-    else:
-        current_user = 'Guest'
+        user = current_user.id
 
-    return current_user
+
+    return user
 
 
 def destination_check(current_destinations, new_destination):
