@@ -1,0 +1,13 @@
+<form action="/itinerary/new_itinerary_generator/" class="form" id="form" method="get">
+	SELECT COUNTRY: <select id="country" name="country">
+		<option id="1" name="1" value="1">United Kingdom</option>
+	</select>
+
+	SELECT DEPARTURE DATE<input type="date" id="date" name="date">
+	SELECT No. OF TRAVELERS<input type="number" id="travelers" name="travelers">
+	SELECT TRAVEL CLASS: <select id="class" name="class">
+			<option id="backpacker" name="backpacker">Backpacker</option>
+			<option id="standard" name="standard">Standard</option>
+	</select>
+	<button value="submit">
+</form>

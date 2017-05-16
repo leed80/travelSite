@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     'itinerary',
     'analytical',
     'api',
-    'createTour',
     'hotelManagement', 
 )
 
@@ -72,7 +71,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'advr.urls'
 
-LOGIN_URL = '/reg/login/'
+LOGIN_URL = '/userProfile/login/'
 
 
 
