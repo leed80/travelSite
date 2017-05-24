@@ -1,7 +1,10 @@
 <h1>Hello and welcome to the home page</h1>
 
-<a href="/userProfile/login">Login</a>
-<a href="/userProfile/logout">Logout</a>
-<a href="/itinerary/create_itinerary">Create a new itinerary</a>
-<a href="/userProfile/profile">Profile</a>
-<a href="/userProfile/">Create an account</a>
+{% if user.is_authenticated %}
+    <a href="/userProfile/logout">Logout</a>
+    <a href="/itinerary/create_itinerary">Create a new itinerary</a>
+    <a href="/userProfile/profile">Profile</a>
+{% else %}
+    <a href="/userProfile/registration_page">Create an account</a>
+    <a href="/userProfile/login">Login</a>
+{% endif %}
