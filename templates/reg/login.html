@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>The Adventurer</title>
+{% include "html_modules/header.html" %}
         <link rel="stylesheet" type="text/css" href="/static/style/regstyle.css">
         <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
         <script src="{{ STATIC_URL }}js/jquery-1.12.0.js"></script>
@@ -36,9 +33,14 @@ window.location.href = '/mobile/';
 }
 //-->
 </script>
-    </head>
 
-    <body>
+
+
+{% include "html_modules/navigation.html" %}
+
+
+
+
 
         <div id="container">
 
@@ -55,7 +57,7 @@ window.location.href = '/mobile/';
             <p id="delete_stat">{{ invalid }}</p>
                 <h1 id="deleted">Incorrect login details. Please try again.</h1>
                 {% block content %}
-                <form id="form" class="form" method="post" action="/userProfile/login/">
+                <form id="form" class="form" method="post" action="/user_profile/login/">
                     {% csrf_token %}
                     <input id="formele" class="usernameInput" type="text" name="username" value="Username" size="50" />
                     <br />
@@ -64,7 +66,7 @@ window.location.href = '/mobile/';
 
                     <input type="submit" value="submit" />
                     <a href="/" id="login">Return to the homepage.</a><br />
-                <a href="/reg/" id="login">Register</a><br />
+                <a href="/user_profile/registration_page/" id="login">Register</a><br />
                 </form>
                 
 
@@ -75,5 +77,4 @@ window.location.href = '/mobile/';
                &copy; {% now "Y" %} The Adventurer
             </div>
         </div>
-    </body>
-</html>
+ {% include "html_modules/footer.html" %}

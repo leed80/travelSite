@@ -1,10 +1,4 @@
-{% load analytical %}
-<!DOCTYPE html >
-
-<head>
-	{% analytical_head_top %}
-  
-    <title>The Adventurer</title>
+{% include "html_modules/header.html" %}
 
     <link rel="stylesheet" type="text/css" href="/static/style/homestyle.css">
 	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
@@ -15,10 +9,14 @@ window.location.href = '/mobile/';
 }
 //-->
 </script>
-  {% analytical_head_bottom %}
-  </head>
-  <body>
-  	{% analytical_body_top %}
+
+
+
+
+{% include "html_modules/navigation.html" %}
+<h1>Hello and welcome to the home page</h1>
+
+
 
   	<div class="success">
 
@@ -29,9 +27,9 @@ window.location.href = '/mobile/';
 
 		   	<div class="menu">
 			  	<ul id="menuulreg">
-					<li id="menureg"><a  id="menureg" href='/map/'>Map</a></li>
-					<li id="menureg"><a  id="menureg" href='/profile/'>Profile</a></li>
-					<li id="menureg"><a id="menureg" href='/reg/logout'>Logout</a></li>
+
+					<li id="menureg"><a  id="menureg" href='/user_profile/'>Profile</a></li>
+					<li id="menureg"><a id="menureg" href='/user_profile/logout'>Logout</a></li>
 				
 
 				</ul>	
@@ -41,7 +39,12 @@ window.location.href = '/mobile/';
 
 		<div class="mainbody">
 	  		<div id="successbox">
+
+                {% if status == 1 %}
 	  			<p id="regsuccess">Thankyou for confirming your email address.</p>
+                {% else %}
+                <p id="regsfailed">Please use a valid link or register again</p>
+                {% endif %}
 	  		</div>
 	  	</div>
 
@@ -49,7 +52,4 @@ window.location.href = '/mobile/';
         <p>&copy; {% now "Y" %} The Adventurer</p>
     </div>
   </div>
-  {% analytical_body_bottom %}
-  </body>
-
-</html>
+{% include "html_modules/footer.html" %}

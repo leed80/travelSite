@@ -1,3 +1,12 @@
+
+{% include "html_modules/header.html" %}
+{% include "html_modules/navigation.html" %}
+
+
+
+
+
+
 <form action="/itinerary/new_itinerary_generator/" class="form" id="form" method="get">
 	SELECT COUNTRY: <select id="country" name="country">
 		<option id="1" name="1" value="1">United Kingdom</option>
@@ -11,3 +20,5 @@
 	</select>
 	<button value="submit">
 </form>
+
+{% include "html_modules/footer.html" %}
