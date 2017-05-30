@@ -22,7 +22,7 @@ import itinerary.views
 urlpatterns = [
     url(r'^$', itinerary.views.index),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^userProfile/', include('userProfile.urls')),
+    url(r'^user_profile/', include('userProfile.urls')),
     url(r'^api/', include('api.urls')),
     url(r'^itinerary/', include('itinerary.urls')),
     url(r'^hotel_management/', include('hotelManagement.urls')),

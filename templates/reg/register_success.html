@@ -1,9 +1,4 @@
-{% load analytical %}
-<!DOCTYPE html >
-<html>
-  <head>
-  {% analytical_head_top %}
-    <title>The Adventurer</title>
+{% include "html_modules/header.html" %}
 
     <link rel="stylesheet" type="text/css" href="/static/style/homestyle.css">
 	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
@@ -14,10 +9,11 @@ window.location.href = '/mobile/';
 }
 //-->
 </script>
-  {% analytical_head_bottom %}
-  </head>
-  <body>
-  	{% analytical_body_top %}
+
+{% include "html_modules/navigation.html" %}
+
+
+
 
   	<div class="success">
 
@@ -28,8 +24,8 @@ window.location.href = '/mobile/';
 
 		   	<div class="menu">
 			  	<ul id="menuulreg">
-					<li id="menureg"><a  id="menureg" href='userProfile/profile/'>Profile</a></li>
-					<li id="menureg"><a id="menureg" href='/userProfile/logout'>Logout</a></li>
+					<li id="menureg"><a  id="menureg" href='user_profile/profile/'>Profile</a></li>
+					<li id="menureg"><a id="menureg" href='/user_profile/logout'>Logout</a></li>
 				
 
 				</ul>	
@@ -39,17 +35,7 @@ window.location.href = '/mobile/';
 
 		<div class="mainbody">
 	  		<div id="successbox">
-	  			<p id="regsuccess">Thankyou for regestering {{  first_name }}, an email has been sent to {{ email }}. Please read this emmail and confirm your account</p>
+	  			<p id="regsuccess">Thank you for registering {{  first_name }}, an email has been sent to {{ email }}. Please read this email and confirm your account</p>
 	  		</div>
 	  	</div>
-
-	  	<div id="copy">
-        <p>&copy; {% now "Y" %} The Adventurer</p>
-    </div>
-  </div>
-
-  {% analytical_body_bottom %}
-  
-  </body>
-
-</html>
+{% include "html_modules/footer.html" %}

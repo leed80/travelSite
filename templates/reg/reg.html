@@ -1,9 +1,4 @@
-{% load analytical %}
-<!DOCTYPE html>
-<html>
-    <head>
-        {% analytical_head_top %}
-        <title>The Adventurer</title>
+   {% include "html_modules/header.html" %}
         <link rel="stylesheet" type="text/css" href="/static/style/regstyle.css">
         <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
         <script type="text/javascript">
@@ -13,11 +8,13 @@ window.location.href = '/mobile/';
 }
 //-->
 </script>
-        {% analytical_head_bottom %}
-    </head>
 
-    <body>
-        {% analytical_body_top %}
+
+{% include "html_modules/navigation.html" %}
+<h1>Hello and welcome to the home page</h1>
+
+
+
 
 
         <div id="container">
@@ -30,7 +27,7 @@ window.location.href = '/mobile/';
 
             <div id="formblock">
 
-                <form class="form" id="form" action="/userProfile/registration/" method="post">{% csrf_token %}
+                <form class="form" id="form" action="/user_profile/registration/" method="post">{% csrf_token %}
                     <h2 id="create">Create your account</h2>
                     <div class="fieldWrapper">
 
@@ -330,7 +327,7 @@ window.location.href = '/mobile/';
                     <br>
                     <br></br>
                     <input type="submit" name="submit" id="reg" class="btn btn-primary" value="Create account">
-                    <a id="login" href="/userProfile/login/" ><h2 id="login">Login</h2></a>
+                    <a id="login" href="/user_profile/login/" ><h2 id="login">Login</h2></a>
                 </form>
 
                 
@@ -338,12 +335,8 @@ window.location.href = '/mobile/';
                
 
 
-            <div id="copy">
-               &copy; {% now "Y" %} The Adventurer
-            </div>
+
              
 
         </div>
-        {% analytical_body_bottom %}
-    </body>
-</html>
+{% include "html_modules/footer.html" %}

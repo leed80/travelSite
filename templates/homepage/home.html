@@ -1,10 +1,13 @@
+
+
+{% include "html_modules/header.html" %}
+{% include "html_modules/navigation.html" %}
 <h1>Hello and welcome to the home page</h1>
 
-{% if user.is_authenticated %}
-    <a href="/userProfile/logout">Logout</a>
-    <a href="/itinerary/create_itinerary">Create a new itinerary</a>
-    <a href="/userProfile/profile">Profile</a>
-{% else %}
-    <a href="/userProfile/registration_page">Create an account</a>
-    <a href="/userProfile/login">Login</a>
+{% if status == 'logout' %}
+
+<h2>Logged out successfully</h2>
+
 {% endif %}
+
+{% include "html_modules/footer.html" %}
